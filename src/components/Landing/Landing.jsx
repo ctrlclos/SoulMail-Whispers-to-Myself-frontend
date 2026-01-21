@@ -1,8 +1,8 @@
 const Landing = () => {
   return (
     <main>
-      <h1>Hello, you are on the landing page for visitors.</h1>
-      <p>Sign up now, or sign in to see your super secret dashboard!</p>
+      <h1>Some thoughts are too sacred for the noise of the world. This is a safe place to whisper them back to yourself.</h1>
+      <p>Sign in to continue your conversation or sign up to start your firt whisper.</p>
     </main>
   );
 };
