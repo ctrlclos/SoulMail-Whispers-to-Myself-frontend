@@ -2,7 +2,7 @@ import { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 
-import * as userService from '../../services/letterService';
+import * as letterService from '../../services/letterService';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   const handleDelete = async (letterId) => {
     try {
-      await letterService.deletLetter(letterId);
+      await letterService.deleteLetter(letterId);
       setLetters(letters.filter((letter) => letter._id !== letterId));
     } catch (err) {
       console.log(err);
@@ -46,15 +46,15 @@ const Dashboard = () => {
         }}>Sign Out</Link>
       </nav>
 
-      <link to='/letters/new'>Sire your new whisper</link>
+      <Link to='/letters/new'>Sire your new whisper</Link>
       <section>
         <h3>Waiting to be Opened ({waitingLetters.length})</h3>
         {waitingLetters.length === 0 ? (
           <p>No Letters</p>
         ) : (
           waitingLetters.map((letter) => (
-            <div key = {letter.id}>
-              <span>{letter.tilte}</span>
+            <div key = {letter._id}>
+              <span>{letter.title}</span>
               <span> Delivery Date: {new Date(letter.deliverAt).toLocaleDateString()}</span>
               <Link to={`/letters/${letter._id}/edit`}>Edit Date</Link>
               <button onClick={() => handleDelete(letter._id)}>Delete</button>
@@ -70,7 +70,7 @@ const Dashboard = () => {
         ) : (
           openedLetters.map((letter) => (
            <div key={letter._id}>
-              <span>{letter.tilte}</span>
+              <span>{letter.title}</span>
               <span> Delivered: {new Date(letter.deliverAt).toLocaleDateString()}</span>
               <Link to={`/letters/${letter._id}/edit`}>View</Link>
               <button onClick={() => handleDelete(letter._id)}>Delete</button>

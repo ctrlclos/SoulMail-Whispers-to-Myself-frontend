@@ -2,7 +2,7 @@ const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/letters`;
 
 const getAuthHeaders = () => ({
     'Authorization': `Bearer ${localStorage.getItem('token')}`,
-    'Content-Type': 'application.json'
+    'Content-Type': 'application/json'
 });
 
 // GET /letters
@@ -15,7 +15,7 @@ const index = async () => {
 
 // GET /letters/:id
 const show = async (letterId) => {
-    const res = await fetchZ(`${BASE_URL}/${letterId}`, {
+    const res = await fetch(`${BASE_URL}/${letterId}`, {
         headers: getAuthHeaders()
     });
     return res.json();
@@ -57,6 +57,7 @@ const addReflection = async (letterId, reflectionData) => {
         headers: getAuthHeaders(),
         body: JSON.stringify(reflectionData)
     });
+    return res.json();
 };
 
 // DELETE /letters/:id/reflection/reflectionId
