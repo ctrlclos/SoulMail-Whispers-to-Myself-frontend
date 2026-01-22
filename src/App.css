@@ -28,15 +28,13 @@ body {
   margin-bottom: 40px;
 }
 
-.logo-box {
-  background: black;
-  color: white;
-  padding: 20px 40px;
-  font-weight: bold;
-  text-align: center;
+/* Logo image */
+.logo-image {
+  height: 200px;
+  width: auto;
 }
 
-/* Nav bar styling - goes on right side */
+/* Nav bar */
 nav {
   display: flex;
   gap: 20px;
@@ -124,7 +122,7 @@ button:hover {
   border: 2px solid black;
   border-radius: 20px;
   padding: 40px;
-  background: #F5F1FF; /* Light lavender background */
+  background: #F5F1FF; 
 }
 
 .form-row {
@@ -351,6 +349,90 @@ button:hover {
   transform: translateY(-2px);
 }
 
+/* Cancel link under submit button */
+.cancel-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.cancel-link a {
+  color: #7B68A4;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.cancel-link a:hover {
+  color: #6A5893;
+  font-weight: bold;
+}
+
+.signout-btn {
+  background: transparent;
+  color: #7B68A4;
+  border: 2px solid #7B68A4;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.signout-btn:hover {
+  background: #7B68A4;
+  color: white;
+}
+
+/* Image button navigation */
+.image-button-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Image button wrapper */
+.nav-image-btn {
+  position: relative;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.nav-image-btn img {
+  display: block;
+  max-height: 60px;
+  width: auto;
+  transition: opacity 0.3s;
+}
+
+/* Default image visible, hover hidden */
+.nav-image-btn .btn-default {
+  opacity: 1;
+}
+
+.nav-image-btn .btn-hover {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* On hover: hide default, show hover */
+.nav-image-btn:hover .btn-default {
+  opacity: 0;
+}
+
+.nav-image-btn:hover .btn-hover {
+  opacity: 1;
+}
+
 /* Mobile responsive */
 @media (max-width: 768px) {
   body {
@@ -381,5 +463,16 @@ button:hover {
   .header {
     flex-direction: column;
     gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-image-btn img {
+    max-height: 50px;
   }
 }

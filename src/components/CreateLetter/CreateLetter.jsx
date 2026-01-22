@@ -58,12 +58,12 @@ const CreateLetter = () => {
         { value: 'calm', emoji: '😌', label: 'Calm' }
     ];
 
-    return (
-        <div className="page-container">
-            <div className="header">
-                <div className="logo-box">LOGO AND SLOGAN</div>
-                <NavBar />
-            </div>
+  return (
+  <div className="page-container">
+    <div className="header">
+      <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
+      <NavBar />
+    </div>
 
             <div className="create-letter-wrapper">
                 <div className="welcome">WELCOME {user?.username?.toUpperCase()}</div>
@@ -72,7 +72,6 @@ const CreateLetter = () => {
                     <h2 className="form-title">Create a Letter</h2>
                     <form onSubmit={handleSubmit}>
 
-                        {/* Title */}
                         {/* Title - full width */}
                         <div className="form-row">
                             <label>Title:</label>
@@ -235,8 +234,14 @@ const CreateLetter = () => {
                             </div>
                         </div>
 
-                        {/* Submit Button */}
-                        <button type="submit" className="submit-btn">Create Letter</button>
+                        {/* Submit and Cancel Buttons and Links */}
+{/* Submit Button */}
+<button type="submit" className="submit-btn">Create Letter</button>
+
+{/* Cancel link */}
+<div className="cancel-link">
+  <a onClick={() => navigate('/')}>Cancel and return to Dashboard</a>
+</div>
                     </form>
                 </div>
             </div>
