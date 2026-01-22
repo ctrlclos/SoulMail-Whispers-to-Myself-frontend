@@ -21,7 +21,11 @@ const Dashboard = () => {
   }, [user]);
 
   const handleDelete = async (letterId) => {
-    try {
+    const confirmDelete = window.confirm('Are you sure you are ready to allow this one to rest?');
+
+    if (!confirmDelete) return;
+
+    try{
       await letterService.deleteLetter(letterId);
       setLetters(letters.filter((letter) => letter._id !== letterId));
     } catch (err) {
