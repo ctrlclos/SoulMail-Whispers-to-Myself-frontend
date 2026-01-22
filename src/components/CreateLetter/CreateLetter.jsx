@@ -2,6 +2,8 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
+import * as letterService from '../../services/letterService';
+
 
 const CreateLetter = () => {
     const navigate = useNavigate();
@@ -38,16 +40,15 @@ const CreateLetter = () => {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            // TODO: Call letterService.create(formData)
-            console.log('Letter data:', formData);
-            navigate('/');
-        } catch (err) {
-            console.error(err);
-        }
-    };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await letterService.create(formData);
+    navigate('/');
+  } catch (err) {
+    console.error(err);
+  }
+};
 
     const moods = [
         { value: 'happy', emoji: '😊', label: 'Happy' },
@@ -66,7 +67,8 @@ const CreateLetter = () => {
     </div>
 
             <div className="create-letter-wrapper">
-                <div className="welcome">WELCOME {user?.username?.toUpperCase()}</div>
+                <div className="welcome">This page belongs to you, {user?.username}</div>
+
 
                 <div className="form-inner-box">
                     <h2 className="form-title">Create a Letter</h2>
@@ -234,7 +236,6 @@ const CreateLetter = () => {
                             </div>
                         </div>
 
-                        {/* Submit and Cancel Buttons and Links */}
 {/* Submit Button */}
 <button type="submit" className="submit-btn">Create Letter</button>
 
