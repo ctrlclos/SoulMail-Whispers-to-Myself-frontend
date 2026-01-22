@@ -8,6 +8,7 @@ import * as letterService from '../../services/letterService';
 const CreateLetter = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    console.log('User object:', user);
     const [formData, setFormData] = useState({
         title: '',
         content: '',

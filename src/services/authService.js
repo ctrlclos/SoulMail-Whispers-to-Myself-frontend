@@ -14,15 +14,20 @@ const signUp = async (formData) => {
       throw new Error(data.err);
     }
 
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      return JSON.parse(atob(data.token.split('.')[1])).payload;
+    // Handle both formats: {token: "..."} and {success: true, token: "..."}
+    const token = data.token || (data.data && data.data.token);
+
+    if (token) {
+      localStorage.setItem('token', token);
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      // Extract payload if it exists, otherwise use decoded directly
+      return decoded.payload || decoded;
     }
 
     throw new Error('Invalid response from server');
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    throw err;
   }
 };
 
@@ -40,16 +45,21 @@ const signIn = async (formData) => {
       throw new Error(data.err);
     }
 
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      return JSON.parse(atob(data.token.split('.')[1])).payload;
+    // Handle both formats: {token: "..."} and {success: true, token: "..."}
+    const token = data.token || (data.data && data.data.token);
+
+    if (token) {
+      localStorage.setItem('token', token);
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      // Extract payload if it exists, otherwise use decoded directly
+      return decoded.payload || decoded;
     }
 
     throw new Error('Invalid response from server');
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    throw err;
   }
 };
 
-export { signUp, signIn }
+export { signUp, signIn };
