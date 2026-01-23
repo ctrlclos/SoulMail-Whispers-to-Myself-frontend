@@ -1,5 +1,5 @@
-import { useEffect, UseState, useContext } from 'react';
-import { useParams, Link } from 'react-router';
+import { useEffect, useState, useContext } from 'react';
+import { useParams, Link, useNavigate } from 'react-router';
 
 import { UserContext } from '../../contexts/UserContext';
 import * as letterService from '../../services/letterService';
@@ -17,6 +17,7 @@ const LetterEdit = () => {
             try {
               const fetchedLetter = await letterService.show(id);
               setLetter(fetchedLetter);
+              const date = new Date(fetchedLetter.deliveredAt).toISOString().split('T')[0];
             } catch (err) {
                 console.log(err);
             }
@@ -27,7 +28,7 @@ const LetterEdit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await letterService.update(id.deliveredAt);
+            await letterService.update(id, deliveredAt);
             navigate('/');
           } catch (err) {
             console.log(err);

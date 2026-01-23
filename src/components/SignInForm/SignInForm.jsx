@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
+import NavBar from '../NavBar/NavBar';
 
 import { signIn } from '../../services/authService';
 
@@ -33,19 +34,25 @@ const SignInForm = () => {
     }
   };
 
-  return (
-    <main>
-      <h1>Sign In</h1>
-      <p>{message}</p>
+return (
+  <div className="page-container">
+    <div className="header">
+      <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
+      <NavBar />
+    </div>
+    
+    <div className="form-box">
+      <h2>Sign In</h2>
+      {message && <p style={{ color: 'red' }}>{message}</p>}
+      
       <form autoComplete='off' onSubmit={handleSubmit}>
         <div>
           <label htmlFor='username'>Username:</label>
           <input
             type='text'
-            autoComplete='off'
             id='username'
-            value={formData.username}
             name='username'
+            value={formData.username}
             onChange={handleChange}
             required
           />
@@ -54,21 +61,25 @@ const SignInForm = () => {
           <label htmlFor='password'>Password:</label>
           <input
             type='password'
-            autoComplete='off'
             id='password'
-            value={formData.password}
             name='password'
+            value={formData.password}
             onChange={handleChange}
             required
           />
         </div>
         <div>
-          <button>Sign In</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="submit">Sign In</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
-    </main>
-  );
+
+      <div className="signup-link">
+        Don't have an account? <a onClick={() => navigate('/sign-up')}>Sign up here</a>
+      </div>
+    </div>
+  </div>
+);
 };
 
 export default SignInForm;

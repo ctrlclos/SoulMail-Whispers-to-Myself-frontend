@@ -10,19 +10,19 @@ const signUp = async (formData) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!data.success) {
+      throw new Error(data.error || 'Sign up failed');
     }
 
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      return JSON.parse(atob(data.token.split('.')[1])).payload;
+    if (data.data?.token) {
+      localStorage.setItem('token', data.data.token);
+      return JSON.parse(atob(data.data.token.split('.')[1])).payload;
     }
 
     throw new Error('Invalid response from server');
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    throw err;
   }
 };
 
@@ -36,19 +36,19 @@ const signIn = async (formData) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!data.success) {
+      throw new Error(data.error || 'Sign in failed');
     }
 
-    if (data.token) {
-      localStorage.setItem('token', data.token);
-      return JSON.parse(atob(data.token.split('.')[1])).payload;
+    if (data.data?.token) {
+      localStorage.setItem('token', data.data.token);
+      return JSON.parse(atob(data.data.token.split('.')[1])).payload;
     }
 
     throw new Error('Invalid response from server');
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    throw err;
   }
 };
 

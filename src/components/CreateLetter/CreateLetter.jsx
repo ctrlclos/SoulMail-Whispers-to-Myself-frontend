@@ -79,7 +79,7 @@ const handleSubmit = async (e) => {
                                 <label>Date you want to receive your letter?</label>
                                 <input
                                     type="date"
-                                    name="deliverAt"
+                                    name="deliveredAt"
                                     value={formData.deliverAt}
                                     onChange={handleChange}
                                     required
