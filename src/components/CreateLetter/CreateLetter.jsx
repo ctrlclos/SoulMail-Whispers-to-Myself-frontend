@@ -3,13 +3,10 @@ import { useNavigate } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
 import * as letterService from '../../services/letterService';
+
 const CreateLetter = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const today = new Date().toISOString().split('T')[0];
-
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -18,44 +15,27 @@ const CreateLetter = () => {
         temperature: '',
         location: '',
         currentSong: '',
-        topHeadLine: '',
+        topHeadline: '',
         deliveredAt: '',
         deliveryInterval: '',
-        customIntervalNumber: '',
-        customIntervalUnit: 'days',
         goals: []
     });
     const [goalInput, setGoalInput] = useState('');
 
-    const deliveryIntervals = [
-        { value: '1week', label: '1 Week' },
-        { value: '1month', label: '1 month' },
-        { value: '6months', label: '6 months'},
-        { value: '1 year', label: '1 Year'},
-        { value: '5years', label: '5 Years'},
-        { value: 'custom', label: 'Custom'}
-    ];
-
-        const moods = [
-        { value: '☺️', label: 'Happy' },
-        { value: '😢', label: 'Sad' },
-        { value: '🤬', label: 'Angry' },
-        { value: '😰', label: 'Anxious' },
-        { value: '🤩', label: 'Excited' },
-        { value: '🙏', label: 'Grateful' },
-        { value: '😩', label: 'Stressed'}
-    ];
-
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrorMessage('');
     };
+
     const handleWeatherSelect = (weather) => {
         setFormData({ ...formData, weather });
     };
+
     const handleAddGoal = () => {
         if (goalInput.trim()) {
+            if (formData.goals.length >= 3) {
+                alert('You can only add up to 3 goals');
+                return;
+            }
             setFormData({
                 ...formData,
                 goals: [...formData.goals, { text: goalInput, completed: false }]
@@ -63,37 +43,90 @@ const CreateLetter = () => {
             setGoalInput('');
         }
     };
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    await letterService.create(formData);
-    navigate('/');
-  } catch (err) {
-    console.error(err);
-  }
-};
-  return (
-  <div className="page-container">
-    <div className="header">
-      <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
-      <NavBar />
-    </div>
+
+    const calculateDeliveryDate = (interval) => {
+        const today = new Date();
+        
+        switch(interval) {
+            case '1week':
+                today.setDate(today.getDate() + 7);
+                break;
+            case '1month':
+                today.setMonth(today.getMonth() + 1);
+                break;
+            case '6months':
+                today.setMonth(today.getMonth() + 6);
+                break;
+            case '1year':
+                today.setFullYear(today.getFullYear() + 1);
+                break;
+            case '5years':
+                today.setFullYear(today.getFullYear() + 5);
+                break;
+            default:
+                return formData.deliveredAt;
+        }
+        
+        return today.toISOString().split('T')[0];
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            let deliveryDate;
+            if (formData.deliveryInterval === 'custom') {
+                deliveryDate = formData.deliveredAt;
+            } else {
+                deliveryDate = calculateDeliveryDate(formData.deliveryInterval);
+            }
+            
+            const dataToSend = {
+                ...formData,
+                deliveredAt: deliveryDate,
+                goal1: formData.goals[0]?.text || '',
+                goal2: formData.goals[1]?.text || '',
+                goal3: formData.goals[2]?.text || ''
+            };
+
+            // Remove fields the backend doesn't use
+            delete dataToSend.goals;
+            delete dataToSend.deliveryInterval;
+            
+            await letterService.create(dataToSend);
+            navigate('/');
+        } catch (err) {
+            console.error('Error creating letter:', err);
+        }
+    };
+
+    const moods = [
+        { value: '☺️', label: 'Happy' },
+        { value: '😢', label: 'Sad' },
+        { value: '😰', label: 'Anxious' },
+        { value: '🤩', label: 'Excited' },
+        { value: '🙏', label: 'Grateful' },
+        { value: '😫', label: 'Frustrated' }
+    ];
+
+    return (
+        <div className="page-container">
+            <div className="header">
+                <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
+                <NavBar />
+            </div>
+
             <div className="create-letter-wrapper">
-                <div className="welcome">This page belongs to you, {user?.name}</div>
+                <div className="welcome">This page belongs to you, {user?.username}</div>
+
                 <div className="form-inner-box">
                     <h2 className="form-title">Create a Letter</h2>
                     <p className="required-note">* Required fields</p>
-                    
-                    {errorMessage && (
-                        <div className="error-message">
-                            {errorMessage}
-                        </div>
-                    )}
-                    
                     <form onSubmit={handleSubmit}>
+
                         {/* Title - full width */}
                         <div className="form-row">
-                            <label>Title: <span className="required-asterisk">*</span></label>
+                            <label>Title:</label>
                             <input
                                 type="text"
                                 name="title"
@@ -102,57 +135,42 @@ const handleSubmit = async (e) => {
                                 required
                             />
                         </div>
-                        {/* Date and Mood - side by side */}
+
+                        {/* Delivery Interval and Mood - side by side */}
                         <div className="form-row-split">
-                            <div className="form-col-half">
-                                <label>Letter Delivery Date: <span className="required-asterisk">*</span></label>
-                                <input
-                                    type="date"
-                                    name="deliveredAt"
-                                    value={formData.deliveredAt}
-                                    onChange={handleChange}
-                                    min={today}
-                                    required
-                                />
-                            </div>
                             <div className="form-col-half">
                                 <label>Delivery Interval:</label>
                                 <select
-                                    value={formData.deliveryInterval}
-                                    onChange={(e) => setFormData({ ...formData, deliveryInterval: e.target.value })}
-                                    className="delivery-dropdown"
+                                    value={formData.deliveryInterval || ''}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setFormData({
+                                            ...formData,
+                                            deliveryInterval: value,
+                                            deliveredAt: value === 'custom' ? formData.deliveredAt : ''
+                                        });
+                                    }}
+                                    required
                                 >
-                                    <option value="">Select your frequency...</option>
-                                    {deliveryIntervals.map(deliveryInterval => (
-                                        <option key={deliveryInterval.value} value={deliveryInterval.value}>
-                                            {deliveryInterval.label}
-                                        </option>
-                                    ))}
+                                    <option value="">Select delivery time...</option>
+                                    <option value="1week">In One Week</option>
+                                    <option value="1month">In One Month</option>
+                                    <option value="6months">In 6 Months</option>
+                                    <option value="1year">In One Year</option>
+                                    <option value="5years">In 5 Years</option>
+                                    <option value="custom">Custom Date</option>
                                 </select>
-                                
+
+                                {/* Show date picker only if "Custom Date" is selected */}
                                 {formData.deliveryInterval === 'custom' && (
-                                    <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
-                                        <input
-                                            type="number"
-                                            name="customIntervalNumber"
-                                            value={formData.customIntervalNumber || ''}
-                                            onChange={handleChange}
-                                            placeholder="Number"
-                                            min="1"
-                                            style={{ flex: 1 }}
-                                        />
-                                        <select
-                                            name="customIntervalUnit"
-                                            value={formData.customIntervalUnit || 'days'}
-                                            onChange={handleChange}
-                                            style={{ flex: 1 }}
-                                        >
-                                            <option value="days">Days</option>
-                                            <option value="weeks">Weeks</option>
-                                            <option value="months">Months</option>
-                                            <option value="years">Years</option>
-                                        </select>
-                                    </div>
+                                    <input
+                                        type="date"
+                                        name="deliveredAt"
+                                        value={formData.deliveredAt}
+                                        onChange={handleChange}
+                                        style={{ marginTop: '10px' }}
+                                        required
+                                    />
                                 )}
                             </div>
 
@@ -172,65 +190,33 @@ const handleSubmit = async (e) => {
                                 </select>
                             </div>
                         </div>
-                        {/* Weather, Temp, Location Row */}
-                        <div className="form-row-group">
-                            <div className="form-col">
-                                <label>Weather:</label>
-                                <div className="weather-selector">
-                                    <button
-                                        type="button"
-                                        className={`weather-btn ${formData.weather === 'sunny' ? 'selected' : ''}`}
-                                        onClick={() => handleWeatherSelect('sunny')}
-                                        title="Sunny"
-                                    >
-                                        :sunny:
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`weather-btn ${formData.weather === 'cloudy' ? 'selected' : ''}`}
-                                        onClick={() => handleWeatherSelect('cloudy')}
-                                        title="Cloudy"
-                                    >
-                                        :cloud:
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`weather-btn ${formData.weather === 'rainy' ? 'selected' : ''}`}
-                                        onClick={() => handleWeatherSelect('rainy')}
-                                        title="Rainy"
-                                    >
-                                        :rain_cloud:
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className={`weather-btn ${formData.weather === 'snowy' ? 'selected' : ''}`}
-                                        onClick={() => handleWeatherSelect('snowy')}
-                                        title="Snowy"
-                                    >
-                                        :snowflake:
-                                    </button>
+
+                        {/* Weather/Temp and Location Row */}
+                        <div className="form-row-split">
+                            <div className="form-col-half">
+                                <div style={{ display: 'flex', gap: '20px' }}>
+                                    <div style={{ flex: 1 }}>
+                                        <label>Weather:</label>
+                                        <div className="weather-selector">
+                                            <button type="button" className={`weather-btn ${formData.weather === 'sunny' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('sunny')} title="Sunny">☀️</button>
+                                            <button type="button" className={`weather-btn ${formData.weather === 'cloudy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('cloudy')} title="Cloudy">☁️</button>
+                                            <button type="button" className={`weather-btn ${formData.weather === 'rainy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('rainy')} title="Rainy">🌧️</button>
+                                            <button type="button" className={`weather-btn ${formData.weather === 'snowy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('snowy')} title="Snowy">❄️</button>
+                                        </div>
+                                    </div>
+                                    <div style={{ flex: 0.5 }}>
+                                        <label>Temp:</label>
+                                        <input type="number" name="temperature" value={formData.temperature} onChange={handleChange} placeholder="°F" />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="form-col">
-                                <label>Temperature:</label>
-                                <input
-                                    type="number"
-                                    name="temperature"
-                                    value={formData.temperature}
-                                    onChange={handleChange}
-                                    placeholder="°F"
-                                />
-                            </div>
-                            <div className="form-col">
+
+                            <div className="form-col-half">
                                 <label>Your current location:</label>
-                                <input
-                                    type="text"
-                                    name="location"
-                                    value={formData.location}
-                                    onChange={handleChange}
-                                />
+                                <input type="text" name="location" value={formData.location} onChange={handleChange} />
                             </div>
                         </div>
+
                         {/* Current Song */}
                         <div className="form-row">
                             <label>Song I'm currently listening to:</label>
@@ -241,19 +227,21 @@ const handleSubmit = async (e) => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         {/* Top Headline */}
                         <div className="form-row">
                             <label>Top Headline:</label>
                             <input
                                 type="text"
-                                name="topHeadLine"
-                                value={formData.topHeadLine}
+                                name="topHeadline"
+                                value={formData.topHeadline}
                                 onChange={handleChange}
                             />
                         </div>
+
                         {/* Your Letter */}
                         <div className="form-section">
-                            <label className="large-label">What's on your mind? <span className="required-asterisk">*</span></label>
+                            <label className="large-label">What's on your mind?</label>
                             <textarea
                                 name="content"
                                 value={formData.content}
@@ -263,17 +251,25 @@ const handleSubmit = async (e) => {
                                 required
                             />
                         </div>
+
                         {/* Goals */}
                         <div className="form-section">
-                            <label>Your Goals:</label>
+                            <label>Your Goals: <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#666' }}>(Maximum 3 goals)</span></label>
                             <div className="goal-input-row">
                                 <input
                                     type="text"
                                     value={goalInput}
                                     onChange={(e) => setGoalInput(e.target.value)}
                                     placeholder="Enter a goal"
+                                    disabled={formData.goals.length >= 3}
                                 />
-                                <button type="button" onClick={handleAddGoal}>Add Goal</button>
+                                <button 
+                                    type="button" 
+                                    onClick={handleAddGoal}
+                                    disabled={formData.goals.length >= 3}
+                                >
+                                    Add Goal
+                                </button>
                             </div>
                             <div className="goals-list">
                                 {formData.goals.length === 0 ? (
@@ -288,16 +284,19 @@ const handleSubmit = async (e) => {
                                 )}
                             </div>
                         </div>
-{/* Submit Button */}
-<button type="submit" className="submit-btn">Create Letter</button>
-{/* Cancel link */}
-<div className="cancel-link">
-  <a onClick={() => navigate('/')}>Cancel and return to Dashboard</a>
-</div>
+
+                        {/* Submit Button */}
+                        <button type="submit" className="submit-btn">Create Letter</button>
+
+                        {/* Cancel link */}
+                        <div className="cancel-link">
+                            <a onClick={() => navigate('/')}>Cancel and return to Dashboard</a>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     );
 };
+
 export default CreateLetter;

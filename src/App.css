@@ -700,35 +700,37 @@ nav {
   gap: 10px;
 }
 
-.action-btn {
+.action-btn,
+.delete-btn {
   background: #7B68A4;
   color: white;
   border: 2px solid #7B68A4;
-  border-radius: 8px;
-  padding: 6px 12px; 
+  border-radius: 4px;
+  padding: 3px 5px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 13px; 
+  font-size: 13px;
   text-decoration: none;
   transition: all 0.3s ease;
   display: inline-block;
 }
 
-.action-btn:hover {
-  background: #9B88C4; 
-  border-color: #9B88C4;
-  transform: translateY(-2px);
-}
-
-.delete-btn {
-  background: #7B68A4; 
-  border-color: #7B68A4;
-}
-
+.action-btn:hover,
 .delete-btn:hover {
-  background: #9B88C4; 
+  background: #9B88C4;
   border-color: #9B88C4;
   transform: translateY(-2px);
+}
+
+/* Show asterisks on required fields */
+input[required] + label::after,
+select[required] + label::after,
+textarea[required] + label::after,
+label:has(+ input[required])::after,
+label:has(+ select[required])::after,
+label:has(+ textarea[required])::after {
+  content: " *";
+  color: #6A5893;
 }
 
 /* Media Queries */
