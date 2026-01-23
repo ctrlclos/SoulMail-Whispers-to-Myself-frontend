@@ -50,7 +50,6 @@ const Dashboard = () => {
         </div>
         <p className="dashboard-tagline">Leave yourself a whisper</p>
 
-        <Link to='/letters/new' className="new-letter-link">Sire your new whisper</Link>
 
         <div className="dashboard-content">
           <div className="dashboard-section">

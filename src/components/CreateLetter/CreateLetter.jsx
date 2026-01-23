@@ -20,14 +20,16 @@ const CreateLetter = () => {
         deliveryInterval: '',
         goals: []
     });
-    
     const [goalInput, setGoalInput] = useState('');
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
     const handleWeatherSelect = (weather) => {
         setFormData({ ...formData, weather });
     };
+
     const handleAddGoal = () => {
         if (goalInput.trim()) {
             if (formData.goals.length >= 3) {
@@ -99,12 +101,12 @@ const CreateLetter = () => {
     };
 
     const moods = [
-        { value: 'happy', emoji: ':blush:', label: 'Happy' },
-        { value: 'sad', emoji: ':cry:', label: 'Sad' },
-        { value: 'angry', emoji: ':angry:', label: 'Angry' },
-        { value: 'anxious', emoji: ':cold_sweat:', label: 'Anxious' },
-        { value: 'excited', emoji: ':star-struck:', label: 'Excited' },
-        { value: 'calm', emoji: ':relieved:', label: 'Calm' }
+        { value: '☺️', label: 'Happy' },
+        { value: '😢', label: 'Sad' },
+        { value: '😰', label: 'Anxious' },
+        { value: '🤩', label: 'Excited' },
+        { value: '🙏', label: 'Grateful' },
+        { value: '😫', label: 'Frustrated' }
     ];
 
     return (
@@ -121,6 +123,7 @@ const CreateLetter = () => {
                     <h2 className="form-title">Create a Letter</h2>
                     <p className="required-note">* Required fields</p>
                     <form onSubmit={handleSubmit}>
+
                         {/* Title - full width */}
                         <div className="form-row">
                             <label>Title:</label>
@@ -213,6 +216,7 @@ const CreateLetter = () => {
                                 <input type="text" name="location" value={formData.location} onChange={handleChange} />
                             </div>
                         </div>
+
                         {/* Current Song */}
                         <div className="form-row">
                             <label>Song I'm currently listening to:</label>
@@ -223,6 +227,7 @@ const CreateLetter = () => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         {/* Top Headline */}
                         <div className="form-row">
                             <label>Top Headline:</label>
@@ -233,6 +238,7 @@ const CreateLetter = () => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         {/* Your Letter */}
                         <div className="form-section">
                             <label className="large-label">What's on your mind?</label>
@@ -245,6 +251,7 @@ const CreateLetter = () => {
                                 required
                             />
                         </div>
+
                         {/* Goals */}
                         <div className="form-section">
                             <label>Your Goals: <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#666' }}>(Maximum 3 goals)</span></label>
@@ -291,4 +298,5 @@ const CreateLetter = () => {
         </div>
     );
 };
+
 export default CreateLetter;
