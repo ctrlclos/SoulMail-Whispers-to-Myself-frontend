@@ -6,6 +6,10 @@ import * as letterService from '../../services/letterService';
 const CreateLetter = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const today = new Date().toISOString().split('T')[0];
+
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -14,13 +18,38 @@ const CreateLetter = () => {
         temperature: '',
         location: '',
         currentSong: '',
-        topHeadline: '',
-        deliverAt: '',
+        topHeadLine: '',
+        deliveredAt: '',
+        deliveryInterval: '',
+        customIntervalNumber: '',
+        customIntervalUnit: 'days',
         goals: []
     });
     const [goalInput, setGoalInput] = useState('');
+
+    const deliveryIntervals = [
+        { value: '1week', label: '1 Week' },
+        { value: '1month', label: '1 month' },
+        { value: '6months', label: '6 months'},
+        { value: '1 year', label: '1 Year'},
+        { value: '5years', label: '5 Years'},
+        { value: 'custom', label: 'Custom'}
+    ];
+
+        const moods = [
+        { value: '☺️', label: 'Happy' },
+        { value: '😢', label: 'Sad' },
+        { value: '🤬', label: 'Angry' },
+        { value: '😰', label: 'Anxious' },
+        { value: '🤩', label: 'Excited' },
+        { value: '🙏', label: 'Grateful' },
+        { value: '😩', label: 'Stressed'}
+    ];
+
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        setErrorMessage('');
     };
     const handleWeatherSelect = (weather) => {
         setFormData({ ...formData, weather });
@@ -43,14 +72,6 @@ const handleSubmit = async (e) => {
     console.error(err);
   }
 };
-    const moods = [
-        { value: 'happy', emoji: ':blush:', label: 'Happy' },
-        { value: 'sad', emoji: ':cry:', label: 'Sad' },
-        { value: 'angry', emoji: ':angry:', label: 'Angry' },
-        { value: 'anxious', emoji: ':cold_sweat:', label: 'Anxious' },
-        { value: 'excited', emoji: ':star-struck:', label: 'Excited' },
-        { value: 'calm', emoji: ':relieved:', label: 'Calm' }
-    ];
   return (
   <div className="page-container">
     <div className="header">
@@ -58,13 +79,21 @@ const handleSubmit = async (e) => {
       <NavBar />
     </div>
             <div className="create-letter-wrapper">
-                <div className="welcome">This page belongs to you, {user?.username}</div>
+                <div className="welcome">This page belongs to you, {user?.name}</div>
                 <div className="form-inner-box">
                     <h2 className="form-title">Create a Letter</h2>
+                    <p className="required-note">* Required fields</p>
+                    
+                    {errorMessage && (
+                        <div className="error-message">
+                            {errorMessage}
+                        </div>
+                    )}
+                    
                     <form onSubmit={handleSubmit}>
                         {/* Title - full width */}
                         <div className="form-row">
-                            <label>Title:</label>
+                            <label>Title: <span className="required-asterisk">*</span></label>
                             <input
                                 type="text"
                                 name="title"
@@ -76,15 +105,57 @@ const handleSubmit = async (e) => {
                         {/* Date and Mood - side by side */}
                         <div className="form-row-split">
                             <div className="form-col-half">
-                                <label>Date you want to receive your letter?</label>
+                                <label>Letter Delivery Date: <span className="required-asterisk">*</span></label>
                                 <input
                                     type="date"
                                     name="deliveredAt"
-                                    value={formData.deliverAt}
+                                    value={formData.deliveredAt}
                                     onChange={handleChange}
+                                    min={today}
                                     required
                                 />
                             </div>
+                            <div className="form-col-half">
+                                <label>Delivery Interval:</label>
+                                <select
+                                    value={formData.deliveryInterval}
+                                    onChange={(e) => setFormData({ ...formData, deliveryInterval: e.target.value })}
+                                    className="delivery-dropdown"
+                                >
+                                    <option value="">Select your frequency...</option>
+                                    {deliveryIntervals.map(deliveryInterval => (
+                                        <option key={deliveryInterval.value} value={deliveryInterval.value}>
+                                            {deliveryInterval.label}
+                                        </option>
+                                    ))}
+                                </select>
+                                
+                                {formData.deliveryInterval === 'custom' && (
+                                    <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+                                        <input
+                                            type="number"
+                                            name="customIntervalNumber"
+                                            value={formData.customIntervalNumber || ''}
+                                            onChange={handleChange}
+                                            placeholder="Number"
+                                            min="1"
+                                            style={{ flex: 1 }}
+                                        />
+                                        <select
+                                            name="customIntervalUnit"
+                                            value={formData.customIntervalUnit || 'days'}
+                                            onChange={handleChange}
+                                            style={{ flex: 1 }}
+                                        >
+                                            <option value="days">Days</option>
+                                            <option value="weeks">Weeks</option>
+                                            <option value="months">Months</option>
+                                            <option value="years">Years</option>
+                                        </select>
+                                    </div>
+                                )}
+                            </div>
+
                             <div className="form-col-half">
                                 <label>Mood:</label>
                                 <select
@@ -95,7 +166,7 @@ const handleSubmit = async (e) => {
                                     <option value="">Select your mood...</option>
                                     {moods.map(mood => (
                                         <option key={mood.value} value={mood.value}>
-                                            {mood.emoji} {mood.label}
+                                            {mood.value} {mood.label}
                                         </option>
                                     ))}
                                 </select>
@@ -175,14 +246,14 @@ const handleSubmit = async (e) => {
                             <label>Top Headline:</label>
                             <input
                                 type="text"
-                                name="topHeadline"
-                                value={formData.topHeadline}
+                                name="topHeadLine"
+                                value={formData.topHeadLine}
                                 onChange={handleChange}
                             />
                         </div>
                         {/* Your Letter */}
                         <div className="form-section">
-                            <label className="large-label">What's on your mind?</label>
+                            <label className="large-label">What's on your mind? <span className="required-asterisk">*</span></label>
                             <textarea
                                 name="content"
                                 value={formData.content}
