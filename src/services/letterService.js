@@ -22,7 +22,11 @@ const show = async (letterId) => {
     const res = await fetch(`${BASE_URL}/${letterId}`, {
         headers: getAuthHeaders()
     });
-    return res.json();
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch letter');
+    }
+    return result.data;
 };
 
 // POST /letters
@@ -32,26 +36,38 @@ const create = async (letterData) => {
         headers: getAuthHeaders(),
         body: JSON.stringify(letterData)
     });
-    return res.json();
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to create letter');
+    }
+    return result.data;
 };
 
-// PUT /letter/:id
-const update = async (letterId, deliverAt) => {
+// PUT /letters/:id
+const update = async (letterId, deliveredAt) => {
     const res = await fetch(`${BASE_URL}/${letterId}`, {
        method: 'PUT',
        headers: getAuthHeaders(),
-       body: JSON.stringify({ deliverAt }) 
+       body: JSON.stringify({ deliveredAt })
     });
-    return res.json();
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to update letter');
+    }
+    return result.data;
 };
 
-// DELETE /letters/:id 
+// DELETE /letters/:id
 const deleteLetter = async (letterId) => {
     const res = await fetch(`${BASE_URL}/${letterId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
     });
-    return res.json();
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to delete letter');
+    }
+    return result.data;
 };
 
 // POST /letters/:id/reflection
@@ -61,16 +77,24 @@ const addReflection = async (letterId, reflectionData) => {
         headers: getAuthHeaders(),
         body: JSON.stringify(reflectionData)
     });
-    return res.json();  
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to add reflection');
+    }
+    return result.data;
 };
 
-// DELETE /letters/:id/reflection/reflectionId
+// DELETE /letters/:id/reflection/:reflectionId
 const deleteReflection = async (letterId, reflectionId) => {
-    const res = await fetch (`${BASE_URL}/${letterId}/reflection/${reflectionId}`, {
+    const res = await fetch(`${BASE_URL}/${letterId}/reflection/${reflectionId}`, {
         method: 'DELETE',
         headers: getAuthHeaders()
     });
-    return res.json();
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to delete reflection');
+    }
+    return result.data;
 };
 
 export {

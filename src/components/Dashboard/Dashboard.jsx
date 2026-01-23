@@ -50,9 +50,14 @@ const Dashboard = () => {
         </div>
         <p className="dashboard-tagline">Leave yourself a whisper</p>
 
+        <Link to='/letters/new' className="new-letter-link">Sire your new whisper</Link>
+
         <div className="dashboard-content">
           <div className="dashboard-section">
-            <div className="section-header" onClick={() => setShowWaiting(!showWaiting)}>
+            <div
+              className="section-header"
+              onClick={() => setShowWaiting(!showWaiting)}
+            >
               <h3>Waiting to be Opened ({waitingLetters.length})</h3>
               <span className="toggle-icon">{showWaiting ? '▼' : '▶'}</span>
             </div>
@@ -74,7 +79,10 @@ const Dashboard = () => {
                         <Link to={`/letters/${letter._id}/edit`} className="action-btn">
                           Edit Date
                         </Link>
-                        <button onClick={() => handleDelete(letter._id)} className="action-btn delete-btn">
+                        <button
+                          onClick={() => handleDelete(letter._id)}
+                          className="delete-btn"
+                        >
                           Delete
                         </button>
                       </div>
@@ -86,7 +94,10 @@ const Dashboard = () => {
           </div>
 
           <div className="dashboard-section">
-            <div className="section-header" onClick={() => setShowOpened(!showOpened)}>
+            <div
+              className="section-header"
+              onClick={() => setShowOpened(!showOpened)}
+            >
               <h3>Already Opened ({openedLetters.length})</h3>
               <span className="toggle-icon">{showOpened ? '▼' : '▶'}</span>
             </div>
@@ -108,7 +119,10 @@ const Dashboard = () => {
                         <Link to={`/letters/${letter._id}`} className="action-btn">
                           View
                         </Link>
-                        <button onClick={() => handleDelete(letter._id)} className="action-btn delete-btn">
+                        <button
+                          onClick={() => handleDelete(letter._id)}
+                          className="delete-btn"
+                        >
                           Delete
                         </button>
                       </div>

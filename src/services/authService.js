@@ -10,18 +10,13 @@ const signUp = async (formData) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!data.success) {
+      throw new Error(data.error || 'Sign up failed');
     }
 
-    // Handle both formats: {token: "..."} and {success: true, token: "..."}
-    const token = data.token || (data.data && data.data.token);
-
-    if (token) {
-      localStorage.setItem('token', token);
-      const decoded = JSON.parse(atob(token.split('.')[1]));
-      // Extract payload if it exists, otherwise use decoded directly
-      return decoded.payload || decoded;
+    if (data.data?.token) {
+      localStorage.setItem('token', data.data.token);
+      return JSON.parse(atob(data.data.token.split('.')[1])).payload;
     }
 
     throw new Error('Invalid response from server');
@@ -41,18 +36,13 @@ const signIn = async (formData) => {
 
     const data = await res.json();
 
-    if (data.err) {
-      throw new Error(data.err);
+    if (!data.success) {
+      throw new Error(data.error || 'Sign in failed');
     }
 
-    // Handle both formats: {token: "..."} and {success: true, token: "..."}
-    const token = data.token || (data.data && data.data.token);
-
-    if (token) {
-      localStorage.setItem('token', token);
-      const decoded = JSON.parse(atob(token.split('.')[1]));
-      // Extract payload if it exists, otherwise use decoded directly
-      return decoded.payload || decoded;
+    if (data.data?.token) {
+      localStorage.setItem('token', data.data.token);
+      return JSON.parse(atob(data.data.token.split('.')[1])).payload;
     }
 
     throw new Error('Invalid response from server');
