@@ -38,9 +38,15 @@ const ProfileSettings = () => {
                     : ''
                 });
 
-                if (userData.settings) {
-                    setSettings(userData.settings);
-                }
+                setSettings({
+                    celebrtionsEnabled: userData.settings?.celebrationsEnabled ?? true,
+                    birthdayOomph: userData.settings?.celebrationsEnabled ?? true,
+                    milestoneOomph: userData.settings?.celebrationsEnabled ?? true,
+                    anniversaryOomph: userData.settings?.celebrationsEnabled ?? true,
+                    letterDeliveryOomph: userData.settings?.celebrationsEnabled ?? true,
+                    goalAccomplishedOomph: userData.settings?.celebrationsEnabled ?? true,
+                    streakOomph: userData.settings?.celebrationsEnabled ?? true,
+                });
             } catch (err) {
                 console.log(err);
             } finally {
@@ -56,7 +62,7 @@ const ProfileSettings = () => {
     const handleToggle = (setting) => {
         setSettings({...settings, [setting]: !settings[setting] });
     };
-    
+
     const handleToggleAll = () => {
         const newValue =!settings.celebrationsEnabled;
         setSettings({
@@ -120,7 +126,7 @@ const ProfileSettings = () => {
                         </div>
 
                         <div className="form-row">
-                            <label htmlFor="name">Name:</label>
+                            <label htmlFor="birthday">Name:</label>
                             <input
                             type="text"
                             id="birthday"
