@@ -9,7 +9,7 @@ body {
   background: #f5f1ff;
   color: black;
   padding: 40px;
-   background: url('/public/images/purple_gradient_bgd.png') center center no-repeat fixed;
+   background: url('/images/purple_gradient_bgd.png') center center no-repeat fixed;
   background-size: cover;
 
 }
