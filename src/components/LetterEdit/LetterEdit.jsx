@@ -17,6 +17,7 @@ const LetterEdit = () => {
             try {
               const fetchedLetter = await letterService.show(id);
               setLetter(fetchedLetter);
+              const date = new Date(fetchedLetter.deliveredAt).toISOString().split('T')[0];
             } catch (err) {
                 console.log(err);
             }

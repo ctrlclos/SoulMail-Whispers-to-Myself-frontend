@@ -20,6 +20,7 @@ const CreateLetter = () => {
         deliveryInterval: '',
         goals: []
     });
+    
     const [goalInput, setGoalInput] = useState('');
 
     const handleChange = (e) => {

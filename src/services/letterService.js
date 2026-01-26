@@ -29,6 +29,16 @@ const show = async (letterId) => {
     return result.data;
 };
 
+// GET / letters/delivery options
+const getDeliveryOptions = async () => {
+    const res = await fetch (`${BASE_URL}/delivery-options`);
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch delivery options');
+    }
+    return result.data;
+};
+
 // POST /letters
 const create = async (letterData) => {
     const res = await fetch(BASE_URL, {
@@ -97,12 +107,58 @@ const deleteReflection = async (letterId, reflectionId) => {
     return result.data;
 };
 
+// PUT /letters/:id/goals/:goalId/status
+const updateGoalStatus = async (letterId, GeolocationCoordinates, statusData) => {
+    const res = await fetch (`${BASE_URL}/${letterId}/goals/${goalId}/status`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(statusData)
+    });
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'FAiled to update goal status');
+    }
+    return result.data;
+};
+
+// POST /letters/:id/goals/:goalId/carry-forward
+const carryGoalForward = async (leeterId, goalId, newLetterId) => {
+    const res = await fetch(`${BASE_URL}/${letterId}/goals/${goalId}/carry-forward`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ newLetterId })
+    });
+    const result = await res.json();
+    if (!result.success) {
+        throw new Error(result.error || 'Failed to carry goal forward');
+    }
+    return result.data;
+};
+
+// PUT /letters/:id/goals/:goalId/reflection
+const addGoalReflection = async (letterId, goalId, reflection) => {
+    const res = await fetch(`${BASE_URL}/${letterID}/goals/${goalId}/reflection`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ reflection })
+    });
+    const result = await res.json();
+    if (! result.success) {
+        throw new Error(result.error || 'FAiled to add goal reflection');
+    }
+    return result.data;
+};
+
 export {
     index,
     show,
+    getDeliveryOptions,
     create,
     update,
     deleteLetter,
     addReflection,
-    deleteReflection
+    deleteReflection,
+    updateGoalStatus,
+    carryGoalForward,
+    addGoalReflection
 };
