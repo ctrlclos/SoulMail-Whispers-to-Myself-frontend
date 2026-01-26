@@ -46,8 +46,8 @@ const CreateLetter = () => {
 
     const calculateDeliveryDate = (interval) => {
         const today = new Date();
-        
-        switch(interval) {
+
+        switch (interval) {
             case '1week':
                 today.setDate(today.getDate() + 7);
                 break;
@@ -66,13 +66,13 @@ const CreateLetter = () => {
             default:
                 return formData.deliveredAt;
         }
-        
+
         return today.toISOString().split('T')[0];
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
             let deliveryDate;
             if (formData.deliveryInterval === 'custom') {
@@ -80,7 +80,7 @@ const CreateLetter = () => {
             } else {
                 deliveryDate = calculateDeliveryDate(formData.deliveryInterval);
             }
-            
+
             const dataToSend = {
                 ...formData,
                 deliveredAt: deliveryDate,
@@ -89,17 +89,23 @@ const CreateLetter = () => {
                 goal3: formData.goals[2]?.text || ''
             };
 
+            // Don't send mood if it's empty
+            if (!dataToSend.mood || dataToSend.mood === '') {
+                delete dataToSend.mood;
+            }
+
             // Remove fields the backend doesn't use
             delete dataToSend.goals;
             delete dataToSend.deliveryInterval;
-            
+
             await letterService.create(dataToSend);
             navigate('/');
         } catch (err) {
             console.error('Error creating letter:', err);
         }
     };
-   const moods = [
+
+    const moods = [
         { value: '☺️', label: 'Happy' },
         { value: '😢', label: 'Sad' },
         { value: '😰', label: 'Anxious' },
@@ -167,6 +173,11 @@ const CreateLetter = () => {
                                         name="deliveredAt"
                                         value={formData.deliveredAt}
                                         onChange={handleChange}
+                                        min={(() => {
+                                            const date = new Date();
+                                            date.setDate(date.getDate() + 7);
+                                            return date.toISOString().split('T')[0];
+                                        })()}
                                         style={{ marginTop: '10px' }}
                                         required
                                     />
@@ -262,8 +273,8 @@ const CreateLetter = () => {
                                     placeholder="Enter a goal"
                                     disabled={formData.goals.length >= 3}
                                 />
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     onClick={handleAddGoal}
                                     disabled={formData.goals.length >= 3}
                                 >
