@@ -7,6 +7,10 @@ import * as letterService from '../../services/letterService';
 const CreateLetter = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const today = new Date().toISOString().split('T')[0];
+
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -45,6 +49,13 @@ const CreateLetter = () => {
         }
     };
 
+    const handleRemoveGoal = (index) => {
+        setFormData({
+            ...formData,
+            goals: formData.goals.filter((_, i) => i !== index)
+        });
+    };
+
     const calculateDeliveryDate = (interval) => {
         const today = new Date();
         
@@ -81,18 +92,23 @@ const CreateLetter = () => {
             } else {
                 deliveryDate = calculateDeliveryDate(formData.deliveryInterval);
             }
-            
+            const formattedGoals = formData.goals.map (goal => ({
+                text: goal.text
+            }));
+
             const dataToSend = {
                 ...formData,
                 deliveredAt: deliveryDate,
-                goal1: formData.goals[0]?.text || '',
-                goal2: formData.goals[1]?.text || '',
-                goal3: formData.goals[2]?.text || ''
+                goals: formattedGoals
+            
+                // goal1: formData.goals[0]?.text || '',
+                // goal2: formData.goals[1]?.text || '',
+                // goal3: formData.goals[2]?.text || ''
             };
 
             // Remove fields the backend doesn't use
-            delete dataToSend.goals;
-            delete dataToSend.deliveryInterval;
+            // delete dataToSend.goals;
+            // delete dataToSend.deliveryInterval;
             
             await letterService.create(dataToSend);
             navigate('/');
