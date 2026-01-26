@@ -119,7 +119,7 @@ const deleteReflection = async (letterId, reflectionId) => {
 };
 
 // PUT /letters/:id/goals/:goalId/status
-const updateGoalStatus = async (letterId, GeolocationCoordinates, statusData) => {
+const updateGoalStatus = async (letterId, goalId, statusData) => {
     const res = await fetch (`${BASE_URL}/${letterId}/goals/${goalId}/status`, {
         method: 'PUT',
         headers: getAuthHeaders(),
@@ -133,7 +133,7 @@ const updateGoalStatus = async (letterId, GeolocationCoordinates, statusData) =>
 };
 
 // POST /letters/:id/goals/:goalId/carry-forward
-const carryGoalForward = async (leeterId, goalId, newLetterId) => {
+const carryGoalForward = async (letterId, goalId, newLetterId) => {
     const res = await fetch(`${BASE_URL}/${letterId}/goals/${goalId}/carry-forward`, {
         method: 'POST',
         headers: getAuthHeaders(),
@@ -148,7 +148,7 @@ const carryGoalForward = async (leeterId, goalId, newLetterId) => {
 
 // PUT /letters/:id/goals/:goalId/reflection
 const addGoalReflection = async (letterId, goalId, reflection) => {
-    const res = await fetch(`${BASE_URL}/${letterID}/goals/${goalId}/reflection`, {
+    const res = await fetch(`${BASE_URL}/${letterId}/goals/${goalId}/reflection`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify({ reflection })

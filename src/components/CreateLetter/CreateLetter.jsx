@@ -183,21 +183,26 @@ const CreateLetter = () => {
                                     <option value="custom">Custom Date</option>
                                 </select>
 
-                                {/* Show date picker only if "Custom Date" is selected */}
+                                {/* Show note and date picker only if "Custom Date" is selected */}
                                 {formData.deliveryInterval === 'custom' && (
-                                    <input
-                                        type="date"
-                                        name="deliveredAt"
-                                        value={formData.deliveredAt}
-                                        onChange={handleChange}
-                                        min={(() => {
-                                            const date = new Date();
-                                            date.setDate(date.getDate() + 7);
-                                            return date.toISOString().split('T')[0];
-                                        })()}
-                                        style={{ marginTop: '10px' }}
-                                        required
-                                    />
+                                    <>
+                                        <p className="form-note" style={{ marginTop: '10px', marginLeft: '0' }}>
+                                            Custom dates must be at least one week from today
+                                        </p>
+                                        <input
+                                            type="date"
+                                            name="deliveredAt"
+                                            value={formData.deliveredAt}
+                                            onChange={handleChange}
+                                            min={(() => {
+                                                const date = new Date();
+                                                date.setDate(date.getDate() + 7);
+                                                return date.toISOString().split('T')[0];
+                                            })()}
+                                            style={{ marginTop: '10px' }}
+                                            required
+                                        />
+                                    </>
                                 )}
                             </div>
 
