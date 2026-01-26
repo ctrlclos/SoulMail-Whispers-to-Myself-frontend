@@ -46,8 +46,8 @@ const CreateLetter = () => {
 
     const calculateDeliveryDate = (interval) => {
         const today = new Date();
-        
-        switch(interval) {
+
+        switch (interval) {
             case '1week':
                 today.setDate(today.getDate() + 7);
                 break;
@@ -66,13 +66,13 @@ const CreateLetter = () => {
             default:
                 return formData.deliveredAt;
         }
-        
+
         return today.toISOString().split('T')[0];
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
             let deliveryDate;
             if (formData.deliveryInterval === 'custom') {
@@ -80,7 +80,7 @@ const CreateLetter = () => {
             } else {
                 deliveryDate = calculateDeliveryDate(formData.deliveryInterval);
             }
-            
+
             const dataToSend = {
                 ...formData,
                 deliveredAt: deliveryDate,
@@ -89,10 +89,15 @@ const CreateLetter = () => {
                 goal3: formData.goals[2]?.text || ''
             };
 
+            // Don't send mood if it's empty
+            if (!dataToSend.mood || dataToSend.mood === '') {
+                delete dataToSend.mood;
+            }
+
             // Remove fields the backend doesn't use
             delete dataToSend.goals;
             delete dataToSend.deliveryInterval;
-            
+
             await letterService.create(dataToSend);
             navigate('/');
         } catch (err) {
@@ -153,11 +158,11 @@ const CreateLetter = () => {
                                     required
                                 >
                                     <option value="">Select delivery time...</option>
-                                    <option value="1week">In One Week</option>
-                                    <option value="1month">In One Month</option>
-                                    <option value="6months">In 6 Months</option>
-                                    <option value="1year">In One Year</option>
-                                    <option value="5years">In 5 Years</option>
+                                    <option value="1week">One Week</option>
+                                    <option value="1month">One Month</option>
+                                    <option value="6months">6 Months</option>
+                                    <option value="1year">One Year</option>
+                                    <option value="5years">5 Years</option>
                                     <option value="custom">Custom Date</option>
                                 </select>
 
@@ -168,6 +173,11 @@ const CreateLetter = () => {
                                         name="deliveredAt"
                                         value={formData.deliveredAt}
                                         onChange={handleChange}
+                                        min={(() => {
+                                            const date = new Date();
+                                            date.setDate(date.getDate() + 7);
+                                            return date.toISOString().split('T')[0];
+                                        })()}
                                         style={{ marginTop: '10px' }}
                                         required
                                     />
@@ -263,8 +273,8 @@ const CreateLetter = () => {
                                     placeholder="Enter a goal"
                                     disabled={formData.goals.length >= 3}
                                 />
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     onClick={handleAddGoal}
                                     disabled={formData.goals.length >= 3}
                                 >

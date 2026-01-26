@@ -11,6 +11,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import CreateLetter from './components/CreateLetter/CreateLetter';
 import EditLetter from './components/EditLetter/EditLetter';
 import LetterDetails from './components/LetterDetails/LetterDetails';
+import ReflectionPage from './components/ReflectionPage/ReflectionPage';
 
 import { UserContext } from './contexts/UserContext';
 
@@ -20,13 +21,19 @@ const App = () => {
 
   return (
     <>
+    <NavBar />
       <Routes>
+        
         <Route path='/' element={user ? <Dashboard /> : <Landing /> } />
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path="/sign-in" element={<SignInForm />} />
+        
+        {/* 2. Protected Routes */}
         <Route path="/letters/new" element={user ? <CreateLetter /> : <Landing />} />
         <Route path="/letters/:id/edit" element={user ? <EditLetter /> : <Landing />} />
         <Route path="/letters/:id" element={user ? <LetterDetails /> : <Landing />} />
+        
+        <Route path="/letters/:id/reflection" element={user ? <ReflectionPage /> : <Landing />} />
       </Routes>
     </>
   );
