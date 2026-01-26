@@ -9,6 +9,7 @@ import SignInForm from './components/SignInForm/SignInForm';
 import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import CreateLetter from './components/CreateLetter/CreateLetter';
+import ReflectionPage from './components/ReflectionPage/ReflectionPage';
 
 import { UserContext } from './contexts/UserContext';
 
@@ -23,6 +24,8 @@ const App = () => {
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path="/sign-in" element={<SignInForm />} />
         <Route path="/letters/new" element={user ? <CreateLetter /> : <Landing />} />
+        <Route path="/letters/:id/reflection" element={<ReflectionPage />} />
+
       </Routes>
     </>
   );
