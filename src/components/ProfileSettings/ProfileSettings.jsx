@@ -53,6 +53,10 @@ const ProfileSettings = () => {
         setProfile({ ...profile, [e.target.name]: e.target.value});
     };
 
+    const handleToggle = (setting) => {
+        setSettings({...settings, [setting]: !settings[setting] });
+    };
+    
     const handleToggleAll = () => {
         const newValue =!settings.celebrationsEnabled;
         setSettings({
