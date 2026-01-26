@@ -50,7 +50,12 @@ const NavBar = () => {
               className="btn-hover"
             />
           </Link>
-          
+
+          {/* Settings button*/}
+          <Link to='/settings' className='nav-text-btn'>
+            ⚙️ Settings
+          </Link>
+
           {/* Sign out button */}
           <button onClick={handleSignOut} className="nav-image-btn">
             <img 

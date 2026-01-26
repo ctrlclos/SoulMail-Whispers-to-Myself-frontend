@@ -2,25 +2,55 @@ import { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
+import { CelebrationModal } from '../Celebrations';
+import { checkCelebrations, getCelebrationMessage, CELEBRATION_TYPES } from '../../utils/celebrationUtils';
 import * as letterService from '../../services/letterService';
+import * as userService from '../../services/userService'
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
   const [letters, setLetters] = useState([]);
   const [showWaiting, setShowWaiting] = useState(true);
   const [showOpened, setShowOpened] = useState(true);
+  const [celebration, setCelebration] = useState(null)
 
   useEffect(() => {
     const fetchLetters = async () => {
       try {
         const fetchedLetters = await letterService.index();
         setLetters(fetchedLetters || []);
+
+        const profile = await userService.getProfile();
+        const celebrations = checkCelebrations(profile, profile.settings);
+
+        const newlyDelivered = (fetchedLetters || []).filter(
+          (letter) => letter.isDelivered && !localStorage.getItem(`viewed_${letter._id}`)
+        );
+
+        if (newlyDelivered.length > 0 && profile.settings?.letterDeliveredOomph) {
+          celebrations.push({
+            type: CELEBRATION_TYPES.LETTER_DELIVERED,
+            ...getCelebrationMessage('letterDelivered')
+          });
+
+          newlyDelivered.forEach(letter => {
+            localStorage.setItem(`viewed_${letter._id}`, 'true');
+          });
+        }
+
+        if (celebrations.length > 0) {
+          setCelebration(celebrations[0]);
+        }
       } catch (err) {
         console.log(err);
       }
     };
     if (user) fetchLetters();
   }, [user]);
+
+  const handleCelebrationClose = () => {
+    setCelebration(null);
+  };
 
   const handleDelete = async (letterId) => {
     const confirmDelete = window.confirm('Are you sure you are ready to allow this one to rest?');
@@ -39,6 +69,12 @@ const Dashboard = () => {
 
   return (
     <div className="page-container">
+      {celebration && (
+        <CelebrationModal
+        celebration={celebration}
+        onClose={handleCelebrationClose}
+        />
+      )}
       <div className="header">
         <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
         <NavBar />

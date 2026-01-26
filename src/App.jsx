@@ -10,6 +10,7 @@ import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import CreateLetter from './components/CreateLetter/CreateLetter';
 import LetterEdit from './components/LetterEdit/LetterEdit';
+import ProfileSettings from './components/ProfileSettings/ProfileSettings';
 import LetterDetails from './components/LetterDetails/LetterDetails';
 import ReflectionPage from './components/ReflectionPage/ReflectionPage';
 
@@ -30,6 +31,7 @@ const App = () => {
         {/* 2. Protected Routes */}
         <Route path="/letters/new" element={user ? <CreateLetter /> : <Landing />} />
         <Route path="/letters/:id/edit" element={user ? <LetterEdit /> : <Landing />} />
+        <Route path="/settings" element={user ? <ProfileSettings /> : <Landing />} />
         <Route path="/letters/:id" element={user ? <LetterDetails /> : <Landing />} />
         
         <Route path="/letters/:id/reflection" element={user ? <ReflectionPage /> : <Landing />} />
