@@ -5,6 +5,17 @@ const getAuthHeaders = () => ({
     'Content-Type': 'application/json'
 });
 
+/**
+ * Extract user-friendly error message from API response
+ */
+const extractErrorMessage = (result) => {
+    // New structured error format: { error: { message, code, fields } }
+    if (result.error && typeof result.error === 'object') {
+        return result.error.message || 'An error occurred';
+    }
+    return 'An unexpected error occurred';
+};
+
 // GET /letters
 const index = async () => {
     const res = await fetch(BASE_URL, {
@@ -12,7 +23,7 @@ const index = async () => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to fetch letters');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
@@ -24,7 +35,7 @@ const show = async (letterId) => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to fetch letter');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
@@ -38,7 +49,7 @@ const create = async (letterData) => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to create letter');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
@@ -52,7 +63,7 @@ const update = async (letterId, deliveredAt) => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to update letter');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
@@ -65,7 +76,7 @@ const deleteLetter = async (letterId) => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to delete letter');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
@@ -79,7 +90,7 @@ const addReflection = async (letterId, reflectionData) => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to add reflection');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
@@ -92,7 +103,7 @@ const deleteReflection = async (letterId, reflectionId) => {
     });
     const result = await res.json();
     if (!result.success) {
-        throw new Error(result.error || 'Failed to delete reflection');
+        throw new Error(extractErrorMessage(result));
     }
     return result.data;
 };
