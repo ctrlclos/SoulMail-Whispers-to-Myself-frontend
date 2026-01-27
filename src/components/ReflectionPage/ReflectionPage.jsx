@@ -78,7 +78,7 @@ const ReflectionPage = () => {
             </div>
 
             <div className="reflection-form-wrapper">
-                <h2 className="reflection-title">Reflect on Your Letter to Yourself</h2>
+<h2 className="page-title">Reflect on Your Letter to Yourself</h2>
                 <p className="reflection-subtitle">Looking back on what you wrote, how do you feel now?</p>
 
                 <form onSubmit={handleSubmit}>

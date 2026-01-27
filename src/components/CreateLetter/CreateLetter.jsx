@@ -24,7 +24,7 @@ const CreateLetter = () => {
         deliveryInterval: '',
         goals: []
     });
-    
+
     const [goalInput, setGoalInput] = useState('');
 
     const handleChange = (e) => {
@@ -92,7 +92,7 @@ const CreateLetter = () => {
             } else {
                 deliveryDate = calculateDeliveryDate(formData.deliveryInterval);
             }
-            const formattedGoals = formData.goals.map (goal => ({
+            const formattedGoals = formData.goals.map(goal => ({
                 text: goal.text
             }));
 
@@ -100,7 +100,7 @@ const CreateLetter = () => {
                 ...formData,
                 deliveredAt: deliveryDate,
                 goals: formattedGoals
-            
+
                 // goal1: formData.goals[0]?.text || '',
                 // goal2: formData.goals[1]?.text || '',
                 // goal3: formData.goals[2]?.text || ''
@@ -114,7 +114,7 @@ const CreateLetter = () => {
             // Remove fields the backend doesn't use
             // delete dataToSend.goals;
             // delete dataToSend.deliveryInterval;
-            
+
             await letterService.create(dataToSend);
             navigate('/');
         } catch (err) {
@@ -139,10 +139,10 @@ const CreateLetter = () => {
             </div>
 
             <div className="create-letter-wrapper">
-                <div className="welcome">This page belongs to you, {user?.username}</div>
+                <div className="greeting">This page belongs to you, {user?.username}</div>
 
                 <div className="form-inner-box">
-                    <h2 className="form-title">Create a Letter</h2>
+                    <h2 className="page-title">Create a Letter</h2>
                     <p className="required-note">* Required fields</p>
                     <form onSubmit={handleSubmit}>
 
@@ -186,7 +186,7 @@ const CreateLetter = () => {
                                 {/* Show note and date picker only if "Custom Date" is selected */}
                                 {formData.deliveryInterval === 'custom' && (
                                     <>
-                                        <p className="form-note" style={{ marginTop: '10px', marginLeft: '0' }}>
+                                        <p className="form-note">
                                             Custom dates must be at least one week from today
                                         </p>
                                         <input
@@ -194,12 +194,12 @@ const CreateLetter = () => {
                                             name="deliveredAt"
                                             value={formData.deliveredAt}
                                             onChange={handleChange}
+                                            className="custom-date-input"
                                             min={(() => {
                                                 const date = new Date();
                                                 date.setDate(date.getDate() + 7);
                                                 return date.toISOString().split('T')[0];
                                             })()}
-                                            style={{ marginTop: '10px' }}
                                             required
                                         />
                                     </>
@@ -226,8 +226,8 @@ const CreateLetter = () => {
                         {/* Weather/Temp and Location Row */}
                         <div className="form-row-split">
                             <div className="form-col-half">
-                                <div style={{ display: 'flex', gap: '20px' }}>
-                                    <div style={{ flex: 1 }}>
+                                <div className="weather-temp-row">
+                                    <div className="weather-col">
                                         <label>Weather:</label>
                                         <div className="weather-selector">
                                             <button type="button" className={`weather-btn ${formData.weather === 'sunny' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('sunny')} title="Sunny">☀️</button>
@@ -236,7 +236,7 @@ const CreateLetter = () => {
                                             <button type="button" className={`weather-btn ${formData.weather === 'snowy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('snowy')} title="Snowy">❄️</button>
                                         </div>
                                     </div>
-                                    <div style={{ flex: 0.5 }}>
+                                    <div className="temp-col">
                                         <label>Temp:</label>
                                         <input type="number" name="temperature" value={formData.temperature} onChange={handleChange} placeholder="°F" />
                                     </div>
@@ -286,7 +286,7 @@ const CreateLetter = () => {
 
                         {/* Goals */}
                         <div className="form-section">
-                            <label>Your Goals: <span style={{ fontSize: '14px', fontWeight: 'normal', color: '#666' }}>(Maximum 3 goals)</span></label>
+                            <label>Your Goals: <span className="goal-max-note">(Maximum 3 goals)</span></label>
                             <div className="goal-input-row">
                                 <input
                                     type="text"

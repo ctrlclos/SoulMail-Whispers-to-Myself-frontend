@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [showOpened, setShowOpened] = useState(true);
   const [celebration, setCelebration] = useState(null)
 
+
   useEffect(() => {
     const fetchLetters = async () => {
       try {
@@ -85,7 +86,7 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-wrapper">
-        <div className="dashboard-greeting">
+        <div className="greeting">
           Elevated Salutations, {user?.username}
         </div>
         <p className="dashboard-tagline">Leave yourself a whisper</p>

@@ -47,10 +47,9 @@ const LetterEdit = () => {
 
       <div className="create-letter-wrapper">
         <div className="form-inner-box">
-          <h2 className="form-title">Edit Delivery Date</h2>
-
+          <h2 className="page-title">Edit Delivery Date</h2>
           <div className="edit-letter-info">
-            <h3 className="edit-letter-title">{letter.title}</h3>
+            <h3 className="section-title">{letter.title}</h3>
             <p className="edit-letter-subtitle">
               Want to receive your letter at a different time? Update the delivery date below and adjust when this whisper returns to you.
             </p>
@@ -60,7 +59,8 @@ const LetterEdit = () => {
             <div className="edit-letter-info">
               <div className="form-row">
                 <label>
-                  New Delivery Date: 
+                  New Delivery Date:
+                  {' '}
                   <span className="form-note">
                     (Must be at least one week from today)
                   </span>
