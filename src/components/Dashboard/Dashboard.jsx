@@ -14,6 +14,7 @@ const Dashboard = () => {
   const [showOpened, setShowOpened] = useState(true);
   const [celebration, setCelebration] = useState(null)
 
+
   useEffect(() => {
     const fetchLetters = async () => {
       try {

@@ -12,7 +12,7 @@ const Confetti = ({ duration = 20000 }) => {
         ];
         const newParticles = Array.from({ length: 150 }, (_, i) => ({
             id: i,
-            x: math.random() * 100,
+            x: Math.random() * 100,
             color: colors[Math.floor(Math.random() * colors.length)],
             delay: Math.random() * 5,
             durtion: 3 + Math.random() * 2,
