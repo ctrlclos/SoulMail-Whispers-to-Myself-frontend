@@ -85,7 +85,7 @@ const Dashboard = () => {
       </div>
 
       <div className="dashboard-wrapper">
-        <div className="dashboard-greeting">
+        <div className="greeting">
           Elevated Salutations, {user?.username}
         </div>
         <p className="dashboard-tagline">Leave yourself a whisper</p>

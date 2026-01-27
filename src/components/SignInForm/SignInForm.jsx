@@ -34,52 +34,52 @@ const SignInForm = () => {
     }
   };
 
-return (
-  <div className="page-container">
-    <div className="header">
-      <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
-      <NavBar />
-    </div>
-    
-    <div className="form-box">
-      <h2>Sign In</h2>
-      {message && <p style={{ color: 'red' }}>{message}</p>}
-      
-      <form autoComplete='off' onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='username'>Username:</label>
-          <input
-            type='text'
-            id='username'
-            name='username'
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <button type="submit">Sign In</button>
-          <button type="button" onClick={() => navigate('/')}>Cancel</button>
-        </div>
-      </form>
+  return (
+    <div className="page-container">
+      <div className="header">
+        <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
+        <NavBar />
+      </div>
 
-      <div className="signup-link">
-        Don't have an account? <a onClick={() => navigate('/sign-up')}>Sign up here</a>
+      <div className="form-box">
+        <h2>Sign In</h2>
+        {message && <p className="error-message">{message}</p>}
+
+        <form autoComplete='off' onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor='username'>Username:</label>
+            <input
+              type='text'
+              id='username'
+              name='username'
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor='password'>Password:</label>
+            <input
+              type='password'
+              id='password'
+              name='password'
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div>
+            <button type="submit">Sign In</button>
+            <button type="button" onClick={() => navigate('/')}>Cancel</button>
+          </div>
+        </form>
+
+        <div className="signup-link">
+          Don't have an account? <a onClick={() => navigate('/sign-up')}>Sign up here</a>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default SignInForm;

@@ -33,14 +33,14 @@ const SignUpForm = () => {
   return (
     <div className="page-container">
       <div className="header">
-       <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
+        <img src="/images/logo.png" alt="SoulMail Logo" className="logo-image" />
         <NavBar />
       </div>
-      
+
       <div className="form-box">
         <h2>Sign Up</h2>
-        {message && <p style={{ color: 'red' }}>{message}</p>}
-        
+        {message && <p className="error-message">{message}</p>}
+
         <form autoComplete='off' onSubmit={handleSubmit}>
           <div>
             <label htmlFor='username'>Username:</label>

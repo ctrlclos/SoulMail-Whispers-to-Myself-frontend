@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext} from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
@@ -34,8 +34,8 @@ const ProfileSettings = () => {
                 setProfile({
                     name: userData.name || '',
                     birthday: userData.birthday
-                    ? new Date(userData.birthday).toISOString().split('T')[0]
-                    : ''
+                        ? new Date(userData.birthday).toISOString().split('T')[0]
+                        : ''
                 });
 
                 setSettings({
@@ -55,13 +55,13 @@ const ProfileSettings = () => {
         };
         fetchProfile();
     }, []);
-    
+
     const handleProfileChange = (e) => {
-        setProfile({ ...profile, [e.target.name]: e.target.value});
+        setProfile({ ...profile, [e.target.name]: e.target.value });
     };
 
     const handleToggle = (setting) => {
-        setSettings({...settings, [setting]: !settings[setting] });
+        setSettings({ ...settings, [setting]: !settings[setting] });
     };
 
     const handleToggleAll = () => {
@@ -79,7 +79,7 @@ const ProfileSettings = () => {
 
     const handleSaveProfile = async (e) => {
         e.preventDefault();
-        try{
+        try {
             await userService.updateProfile(profile);
             setMessage('Profile updated!');
             setTimeout(() => setMessage(''), 3000);
@@ -95,7 +95,7 @@ const ProfileSettings = () => {
             setMessage('Settings saved!');
             setTimeout(() => setMessage(''), 3000);
         } catch (err) {
-            console.log (err);
+            console.log(err);
             setMessage('Failed to save settings');
         }
     };
@@ -110,12 +110,12 @@ const ProfileSettings = () => {
             </div>
 
             <div className="create-letter-wrapper">
-                <h1 className="form-title">Profile & Settings</h1>
+                <h1 className="page-title">Profile & Settings</h1>
 
                 {message && <div className="settings-message">{message}</div>}
 
                 <div className="form-inner-box">
-                    <h2 className="settings-subtitle">👤 Profile</h2>
+                    <h2 className="section-title">👤 Profile</h2>
                     <form onSubmit={handleSaveProfile}>
                         <div className="form-row">
                             <label htmlFor="name">Name:</label>
@@ -144,7 +144,7 @@ const ProfileSettings = () => {
                 </div>
 
                 <div className="form-inner-box">
-                    <h2 className="settings-subtitle">🎉 Celebration Animations</h2>
+                    <h2 className="section-title">🎉 Celebration Animations</h2>
                     <p className="settings-description">
                         Toggle celebration animations on or off (15-20 seconds each)
                     </p>
@@ -187,7 +187,7 @@ const ProfileSettings = () => {
                                 <span className='toggle-slider'></span>
                             </label>
                         </div>
-                        
+
                         <div className="toggle-row">
                             <span>🎉 Account Anniversary</span>
                             <label className='toggle-switch'>
@@ -200,7 +200,7 @@ const ProfileSettings = () => {
                                 <span className='toggle-slider'></span>
                             </label>
                         </div>
-                        
+
                         <div className="toggle-row">
                             <span>✉️ Letter Delivered</span>
                             <label className='toggle-switch'>
@@ -213,7 +213,7 @@ const ProfileSettings = () => {
                                 <span className='toggle-slider'></span>
                             </label>
                         </div>
-                        
+
                         <div className="toggle-row">
                             <span>⭐️ Goal Accomplished</span>
                             <label className='toggle-switch'>
@@ -226,7 +226,7 @@ const ProfileSettings = () => {
                                 <span className='toggle-slider'></span>
                             </label>
                         </div>
-                        
+
                         <div className="toggle-row">
                             <span>🔥 Milestones (7, 14, 30... days)</span>
                             <label className='toggle-switch'>

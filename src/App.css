@@ -31,9 +31,8 @@ body {
   gap: 20px;
 }
 
-.logo-image,
-.landing-logo {
-  height: 250px;
+.logo-image {
+  height: 300px;
   width: auto;
 }
 
@@ -77,6 +76,11 @@ body {
   display: block;
 }
 
+.landing-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 .nav-image-btn .btn-hover,
 .landing-btn .btn-hover {
   display: none;
@@ -113,6 +117,28 @@ body {
   text-decoration: underline;
 }
 
+.page-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #7B68A4;
+}
+
+.section-title {
+  font-size: 24px;
+  color: #7B68A4;
+  margin-bottom: 20px;
+}
+
+.landing-page-title {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #7B68A4;
+}
+
 /* ===== SHARED FORM CONTAINERS ===== */
 .form-box,
 .form-inner-box {
@@ -146,8 +172,7 @@ body {
 }
 
 /* ===== TITLES & HEADINGS ===== */
-.form-box h2,
-.form-title {
+.form-box h2 {
   text-align: center;
   font-size: 32px;
   margin-bottom: 30px;
@@ -160,16 +185,7 @@ body {
   margin-bottom: 20px;
 }
 
-.reflection-title {
-  text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  color: #7B68A4;
-  margin-bottom: 10px;
-}
-
-.welcome,
-.dashboard-greeting {
+.greeting {
   text-align: center;
   font-weight: bold;
   font-size: 24px;
@@ -177,10 +193,6 @@ body {
   color: #7B68A4;
   font-family: 'Georgia', serif;
   font-style: italic;
-}
-
-.dashboard-greeting {
-  margin-bottom: 10px;
 }
 
 .reflection-subtitle {
@@ -306,6 +318,10 @@ body {
   border-color: #7B68A4;
 }
 
+.custom-date-input {
+  margin-top: 10px;
+}
+
 /* ===== BUTTONS ===== */
 .form-box button,
 .submit-btn,
@@ -406,7 +422,27 @@ body {
   box-shadow: 0 4px 8px rgba(123, 104, 164, 0.3);
 }
 
+.weather-temp-row {
+  display: flex;
+  gap: 20px;
+}
+
+.weather-col {
+  flex: 1;
+}
+
+.temp-col {
+  flex: 0.5;
+}
+
 /* ===== GOALS ===== */
+
+.goal-max-note {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+}
+
 .goal-input-row {
   display: flex;
   gap: 10px;
@@ -504,12 +540,12 @@ body {
 .edit-letter-info {
   text-align: center;
   margin-bottom: 30px;
+  margin-top: -10px;
+
 }
 
-.edit-letter-title {
-  color: #7B68A4;
-  font-size: 28px;
-  margin-bottom: 10px;
+.edit-letter-info .form-row label {
+  font-size: 18px;
 }
 
 .edit-letter-subtitle {
@@ -530,10 +566,6 @@ body {
 }
 
 /* ===== LANDING PAGE ===== */
-.landing-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
 
 .landing-content {
   max-width: 700px;
@@ -578,6 +610,8 @@ body {
   text-align: center;
   font-style: italic;
   color: #666;
+  font-size: 20px;
+  margin-top: -20px;
   margin-bottom: 30px;
 }
 
@@ -701,13 +735,6 @@ body {
   font-weight: bold;
 }
 
-.settings-subtitle {
-  font-size: 24px;
-  color: #7B68A4;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
 .settings-description {
   font-size: 16px;
   color: #666;
@@ -795,22 +822,22 @@ body {
   transition: 0.3s;
 }
 
-.toggle-switch input:checked + .toggle-slider {
+.toggle-switch input:checked+.toggle-slider {
   background-color: #7B68A4;
 }
 
-.toggle-switch input:checked + .toggle-slider:before {
+.toggle-switch input:checked+.toggle-slider:before {
   transform: translateX(26px);
 }
 
-.toggle-switch input:disabled + .toggle-slider {
+.toggle-switch input:disabled+.toggle-slider {
   background-color: #ddd;
 }
 
 /* ===== REQUIRED FIELDS ===== */
-input[required] + label::after,
-select[required] + label::after,
-textarea[required] + label::after,
+input[required]+label::after,
+select[required]+label::after,
+textarea[required]+label::after,
 label:has(+ input[required])::after,
 label:has(+ select[required])::after,
 label:has(+ textarea[required])::after {
@@ -824,7 +851,7 @@ label:has(+ textarea[required])::after {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .nav-buttons {
     justify-content: center;
   }
@@ -840,9 +867,8 @@ label:has(+ textarea[required])::after {
     border-radius: 20px;
   }
 
-  .logo-image,
-  .landing-logo {
-    height: 180px;
+  .logo-image {
+    height: 200px;
   }
 
   .form-row-split {
@@ -867,9 +893,6 @@ label:has(+ textarea[required])::after {
     padding: 25px;
   }
 
-  .form-title {
-    font-size: 26px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -882,9 +905,8 @@ label:has(+ textarea[required])::after {
     border-radius: 15px;
   }
 
-  .logo-image,
-  .landing-logo {
-    height: 120px;
+  .logo-image {
+    height: 150px;
   }
 
   .nav-image-btn img {
@@ -906,10 +928,6 @@ label:has(+ textarea[required])::after {
 
   .landing-tagline {
     font-size: 16px;
-  }
-
-  .form-title {
-    font-size: 22px;
   }
 
   .large-label {
