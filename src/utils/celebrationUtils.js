@@ -75,7 +75,7 @@ export const getCelebrationMessage = (type, data = {}) => {
     }
 };
 
-return message[type] || {title: 'Celebration!', message: 'Greatjob!', duration: 15000 };
+return messages[type] || {title: 'Celebration!', message: 'Greatjob!', duration: 15000 };
 
 };
 
@@ -92,7 +92,7 @@ if (!settings?.birthdayOomph && isBirthday(user.birthday)) {
     });
  }
 //  Anniversary?
- if (settings?.anniversaryOomph && isAnneversary(user.createdAt)) {
+ if (settings?.anniversaryOomph && isAnniversary(user.createdAt)) {
     celebrations.push({
         type: CELEBRATION_TYPES.ANNIVERSARY,
         ...getCelebrationMessage('anniversary', { years: getAccountYears(user.creatAt) })

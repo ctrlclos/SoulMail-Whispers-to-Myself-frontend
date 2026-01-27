@@ -355,3 +355,238 @@
     align-items: flex-start;
   }
 }
+.goal-card {
+  background: white;
+  border: 2px solid #9B88C4;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+.goal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.goal-status-emoji {
+  font-size: 1.3rem;
+}
+.goal-text {
+  flex: 1;
+  font-weight: 500;
+  color: #333;
+}
+.goal-status-label {
+  font-size: 13px;
+  color: #7B68A4;
+  background: #F5F1FF;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #9B88C4;
+}
+.goal-reflection-display {
+  background: #F5F1FF;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border-left: 3px solid #7B68A4;
+}
+.goal-reflection-display p {
+  margin: 0;
+  color: #555;
+  font-style: italic;
+  line-height: 1.5;
+}
+.carry-forward-info {
+  font-size: 13px;
+  color: #7B68A4;
+  margin: 8px 0;
+  font-style: italic;
+}
+.goal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #E0E0E0;
+}
+.goal-btn {
+  padding: 8px 14px;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.goal-btn.accomplished {
+  background: #E8F5E9;
+  color: #2e7d32;
+  border-color: #a5d6a7;
+}
+.goal-btn.accomplished:hover {
+  background: #C8E6C9;
+  transform: translateY(-2px);
+}
+.goal-btn.in-progress {
+  background: #e3f3fd;
+  color: #1565C0;
+  border-color: #90caf9;
+}
+.goal-btn.in-progress:hover {
+  background: #bbdefb;
+  transform: translateY(-2px);
+}
+.goal-btn.carry-forward {
+  background: #fff3e0;
+  color: #e65100;
+  border-color: #ffcc80;
+}
+.goal-btn.carry-forward:hover {
+  background: #fff3e0 ;
+  transform: translateY(-2px);
+}
+.goal-btn.abandon {
+  background: #fce4ec;
+  color: #c62828;
+  border-color: #f48fb1;
+}
+.goal-btn.abandon:hover {
+  background:#f8bbd0;
+  transform: translateY(-2px);
+}
+.goal-reflection-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+.goal-reflection-form input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #9b88c4;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+.goal-reflection-form input:focus {
+  outline: none;
+  border-color: #7b68A4;
+}
+.goal-reflection-form input::placeholder {
+  color: #999;
+}
+.goal-reflection-form button {
+  padding: 10px 20px;
+  background: #7b68a4;
+  color: white;
+  border: 2px solid #7b68A4;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.goal-reflection-form button:hover {
+  background: #6a5893;
+  border-color: #6A5893;
+  transform: translateY(-2px);
+}
+.carry-forward-modal {
+  background: #f5f1ff;
+  border: 2px solid #9b88c4;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 12px;
+}
+.carry-forward-modal h4 {
+  margin: 0 0 12px 0;
+  color: #7b68A4;
+  font-size: 16px;
+}
+.carry-forward-modal p {
+  color: #666;
+  font-style: italic;
+  margin: 0;
+}
+.carry-forward-modal select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #9B88C4;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  background: white;
+  cursor: pointer;
+}
+.carry-forward-modal select:focus {
+  outline: none;
+  border-color: #7b68A4;
+}
+.carry-forward-actions {
+  display: flex;
+  gap: 10px;
+}
+.carry-forward-actions button{
+  padding: 10px 20px;
+  border: 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.carry-forward-actions button:first-child {
+  background: #7b68A4;
+  color: white;
+  border-color: #7b68A4;
+}
+.carry-forward-actions button:first-child:hover {
+  background: #6a5893;
+  border-color: #6A5893;
+  transform: translateY(-2px);
+}
+.carry-forward-actions button:last-child {
+  background: white;
+  color: #666;
+  border-color: #ccc;
+}
+
+/* Responsive styles for goals */
+@media (max-width: 768px) {
+  .goal-actions {
+    justify-content: center;
+  }
+  .goal-btn {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+}
+@media (max-width: 480px) {
+  .goal-header {
+    flex-wrap: wrap;
+  }
+  .goal-text {
+    width: 100%;
+    order: 2;
+    margin-top: 5px;
+  }
+  .goal-status label {
+    order: 1;
+  }
+  .goal-reflection-form {
+    flex-direction: column;
+  }
+  .goal-reflection-form button {
+    width: 100%;
+  }
+  .carry-forward-actions {
+    flex-direction: column;
+  }
+  .carry-forward-actions button{
+    width: 100%;
+  }
+}
