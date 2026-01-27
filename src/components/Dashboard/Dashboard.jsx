@@ -20,26 +20,30 @@ const Dashboard = () => {
         const fetchedLetters = await letterService.index();
         setLetters(fetchedLetters || []);
 
-        const profile = await userService.getProfile();
-        const celebrations = checkCelebrations(profile, profile.settings);
+        try {
+          const profile = await userService.getProfile();
+          const celebrations = checkCelebrations(profile, profile.settings);
 
-        const newlyDelivered = (fetchedLetters || []).filter(
-          (letter) => letter.isDelivered && !localStorage.getItem(`viewed_${letter._id}`)
-        );
+          const newlyDelivered = (fetchedLetters || []).filter(
+            (letter) => letter.isDelivered && !localStorage.getItem(`viewed_${letter._id}`)
+          );
 
-        if (newlyDelivered.length > 0 && profile.settings?.letterDeliveredOomph) {
-          celebrations.push({
-            type: CELEBRATION_TYPES.LETTER_DELIVERED,
-            ...getCelebrationMessage('letterDelivered')
-          });
+          if (newlyDelivered.length > 0 && profile.settings?.letterDeliveredOomph) {
+            celebrations.push({
+              type: CELEBRATION_TYPES.LETTER_DELIVERED,
+              ...getCelebrationMessage('letterDelivered')
+            });
 
-          newlyDelivered.forEach(letter => {
-            localStorage.setItem(`viewed_${letter._id}`, 'true');
-          });
-        }
+            newlyDelivered.forEach(letter => {
+              localStorage.setItem(`viewed_${letter._id}`, 'true');
+            });
+          }
 
-        if (celebrations.length > 0) {
-          setCelebration(celebrations[0]);
+          if (celebrations.length > 0) {
+            setCelebration(celebrations[0]);
+          }
+        } catch (profileErr) {
+          console.log('Profile fetch failed, skipping celebrations:', profileErr);
         }
       } catch (err) {
         console.log(err);

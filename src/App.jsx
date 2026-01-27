@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useLocation } from 'react-router';
 import './App.css';
 
 import NavBar from './components/NavBar/NavBar';
@@ -19,21 +19,23 @@ import { UserContext } from './contexts/UserContext';
 
 const App = () => {
   const { user } = useContext(UserContext);
+    const location = useLocation();
+
 
   return (
     <>
       <Routes>
-        
-        <Route path='/' element={user ? <Dashboard /> : <Landing /> } />
+
+        <Route path='/' element={user ? <Dashboard key={location.key} /> : <Landing />} />
         <Route path='/sign-up' element={<SignUpForm />} />
         <Route path="/sign-in" element={<SignInForm />} />
-        
+
         {/* 2. Protected Routes */}
         <Route path="/letters/new" element={user ? <CreateLetter /> : <Landing />} />
         <Route path="/letters/:id/edit" element={user ? <LetterEdit /> : <Landing />} />
         <Route path="/settings" element={user ? <ProfileSettings /> : <Landing />} />
         <Route path="/letters/:id" element={user ? <LetterDetails /> : <Landing />} />
-        
+
         <Route path="/letters/:id/reflection" element={user ? <ReflectionPage /> : <Landing />} />
       </Routes>
     </>
