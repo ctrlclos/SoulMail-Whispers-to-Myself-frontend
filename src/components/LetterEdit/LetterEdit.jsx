@@ -30,7 +30,7 @@ const LetterEdit = () => {
     e.preventDefault();
     try {
       await letterService.update(id, deliveredAt);
-      navigate('/');
+      window.location.href = '/';
     } catch (err) {
       console.log(err);
     }
