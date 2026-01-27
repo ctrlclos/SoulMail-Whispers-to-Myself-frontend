@@ -25,9 +25,10 @@ body {
 /* ===== HEADER & NAVIGATION ===== */
 .header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 40px;
+  gap: 20px;
 }
 
 .logo-image,

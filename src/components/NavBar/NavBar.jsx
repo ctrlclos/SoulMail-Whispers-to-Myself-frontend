@@ -52,9 +52,18 @@ const NavBar = () => {
           </Link>
 
           {/* Settings button*/}
-          <Link to='/settings' className='nav-text-btn'>
-            ⚙️ Settings
-          </Link>
+         <Link to="/settings" className="nav-image-btn">
+      <img 
+        src="/images/buttons/settings_but.png" 
+        alt="Settings"
+        className="btn-default"
+      />
+      <img 
+        src="/images/buttons/settings_but2.png" 
+        alt="Settings"
+        className="btn-hover"
+      />
+    </Link>
 
           {/* Sign out button */}
           <button onClick={handleSignOut} className="nav-image-btn">
