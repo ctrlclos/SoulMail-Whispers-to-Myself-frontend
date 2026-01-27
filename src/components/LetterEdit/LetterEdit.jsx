@@ -69,7 +69,7 @@ const LetterEdit = () => {
                   type='date'
                   id='deliveredAt'
                   value={deliveredAt}
-                  onChange={(e) => setDeliverAt(e.target.value)}
+                  onChange={(e) => setDeliveredAt(e.target.value)}
                   min={(() => {
                     const date = new Date();
                     date.setDate(date.getDate() + 7);
