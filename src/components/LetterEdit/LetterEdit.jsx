@@ -10,7 +10,7 @@ const LetterEdit = () => {
   const navigate = useNavigate();
 
   const [letter, setLetter] = useState(null);
-  const [deliveredAt, setDeliverAt] = useState('');
+  const [deliveredAt, setDeliveredAt] = useState('');
 
   useEffect(() => {
     const fetchLetter = async () => {
@@ -18,7 +18,7 @@ const LetterEdit = () => {
         const fetchedLetter = await letterService.show(id);
         setLetter(fetchedLetter);
         const date = new Date(fetchedLetter.deliveredAt).toISOString().split('T')[0];
-        setDeliverAt(date);
+        setDeliveredAt(date);
       } catch (err) {
         console.log(err);
       }
