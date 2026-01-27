@@ -22,7 +22,9 @@ body {
   padding: 40px;
 }
 
-/* ===== HEADER & NAVIGATION ===== */
+/* ========================================
+   HEADER & NAVIGATION
+   ======================================== */
 .header {
   display: flex;
   flex-direction: column;
@@ -34,12 +36,6 @@ body {
 .logo-image {
   height: 300px;
   width: auto;
-}
-
-.image-button-nav {
-  display: flex;
-  gap: 20px;
-  align-items: center;
 }
 
 .nav-buttons {
@@ -76,11 +72,6 @@ body {
   display: block;
 }
 
-.landing-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
 .nav-image-btn .btn-hover,
 .landing-btn .btn-hover {
   display: none;
@@ -94,6 +85,12 @@ body {
 .nav-image-btn:hover .btn-hover,
 .landing-btn:hover .btn-hover {
   display: block;
+}
+
+.image-button-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
 .image-button-nav ul {
@@ -117,6 +114,9 @@ body {
   text-decoration: underline;
 }
 
+/* ========================================
+   SHARED TYPOGRAPHY
+   ======================================== */
 .page-title {
   text-align: center;
   font-size: 32px;
@@ -131,60 +131,6 @@ body {
   margin-bottom: 20px;
 }
 
-.landing-page-title {
-  text-align: center;
-  font-size: 36px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #7B68A4;
-}
-
-/* ===== SHARED FORM CONTAINERS ===== */
-.form-box,
-.form-inner-box {
-  border: 2px solid black;
-  border-radius: 20px;
-  padding: 40px;
-  background: #F5F1FF;
-  margin-bottom: 30px;
-}
-
-.form-box {
-  border-color: #7B68A4;
-  max-width: 400px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.create-letter-wrapper {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.reflection-form-wrapper {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px;
-  background: #F5F1FF;
-  border: 2px solid black;
-  border-radius: 20px;
-}
-
-/* ===== TITLES & HEADINGS ===== */
-.form-box h2 {
-  text-align: center;
-  font-size: 32px;
-  margin-bottom: 30px;
-  font-weight: bold;
-  color: #7B68A4;
-}
-
-.form-box h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
 .greeting {
   text-align: center;
   font-weight: bold;
@@ -193,14 +139,6 @@ body {
   color: #7B68A4;
   font-family: 'Georgia', serif;
   font-style: italic;
-}
-
-.reflection-subtitle {
-  text-align: center;
-  font-size: 18px;
-  font-style: italic;
-  color: #666;
-  margin-bottom: 30px;
 }
 
 .required-note {
@@ -223,7 +161,59 @@ body {
   font-weight: bold;
 }
 
-/* ===== FORM ELEMENTS ===== */
+/* ========================================
+   SHARED FORM CONTAINERS & WRAPPERS
+   ======================================== */
+.form-box,
+.form-inner-box {
+  border: 2px solid black;
+  border-radius: 20px;
+  padding: 40px;
+  background: #F5F1FF;
+  margin-bottom: 30px;
+}
+
+.form-box {
+  border-color: #7B68A4;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.form-box h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #7B68A4;
+}
+
+.create-letter-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.reflection-form-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #F5F1FF;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.reflection-subtitle {
+  text-align: center;
+  font-size: 18px;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* ========================================
+   SHARED FORM ELEMENTS
+   ======================================== */
 .form-box label,
 .form-row label,
 .form-col-half label,
@@ -291,11 +281,6 @@ body {
   margin-bottom: 15px;
 }
 
-.mood-dropdown {
-  font-size: 18px;
-  cursor: pointer;
-}
-
 .form-note {
   font-weight: normal;
   font-size: 14px;
@@ -322,7 +307,20 @@ body {
   margin-top: 10px;
 }
 
-/* ===== BUTTONS ===== */
+/* Required field asterisks */
+input[required]+label::after,
+select[required]+label::after,
+textarea[required]+label::after,
+label:has(+ input[required])::after,
+label:has(+ select[required])::after,
+label:has(+ textarea[required])::after {
+  content: " *";
+  color: #6A5893;
+}
+
+/* ========================================
+   SHARED BUTTONS & LINKS
+   ======================================== */
 .form-box button,
 .submit-btn,
 .goal-input-row button {
@@ -392,180 +390,21 @@ body {
   font-weight: bold;
 }
 
-/* ===== WEATHER SELECTOR ===== */
-.weather-selector {
-  display: flex;
-  gap: 10px;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-}
-
-.weather-btn {
-  background: white;
-  border: 2px solid #9B88C4;
-  border-radius: 8px;
-  padding: 10px 15px;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.weather-btn:hover {
-  background: #F5F1FF;
-  border-color: #7B68A4;
-  transform: scale(1.1);
-}
-
-.weather-btn.selected {
-  background: #7B68A4;
-  border-color: #7B68A4;
-  box-shadow: 0 4px 8px rgba(123, 104, 164, 0.3);
-}
-
-.weather-temp-row {
-  display: flex;
-  gap: 20px;
-}
-
-.weather-col {
-  flex: 1;
-}
-
-.temp-col {
-  flex: 0.5;
-}
-
-/* ===== GOALS ===== */
-
-.goal-max-note {
-  font-size: 14px;
-  font-weight: normal;
-  color: #666;
-}
-
-.goal-input-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.goal-input-row input {
-  flex: 1;
-  padding: 12px;
-  border: 2px solid #9B88C4;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-.goals-list {
-  border: 2px solid #9B88C4;
-  border-radius: 8px;
-  padding: 15px;
-  min-height: 100px;
-  background: white;
-}
-
-.goals-placeholder {
-  color: #999;
-  font-style: italic;
+/* ========================================
+   LANDING PAGE
+   ======================================== */
+.landing-header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
-.goal-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid #E0E0E0;
-}
-
-.goal-item:last-child {
-  border-bottom: none;
-}
-
-.goal-item input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.goals-progress-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 15px;
-}
-
-.goal-progress-item {
-  background: white;
-  border: 2px solid #9B88C4;
-  border-radius: 10px;
-  padding: 15px;
-}
-
-.goal-text {
-  font-weight: bold;
+.landing-page-title {
+  text-align: center;
+  font-size: 36px;
   margin-bottom: 10px;
-  color: #333;
+  font-weight: bold;
+  color: #7B68A4;
 }
-
-.goal-status-options {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-/* ===== RADIO OPTIONS ===== */
-.radio-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.radio-option input[type="radio"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
-.redelivery-options {
-  display: flex;
-  gap: 30px;
-  margin-top: 10px;
-}
-
-/* ===== EDIT LETTER PAGE ===== */
-.edit-letter-info {
-  text-align: center;
-  margin-bottom: 30px;
-  margin-top: -10px;
-
-}
-
-.edit-letter-info .form-row label {
-  font-size: 18px;
-}
-
-.edit-letter-subtitle {
-  font-size: 18px;
-  font-style: italic;
-  color: #666;
-  line-height: 1.6;
-}
-
-.edit-letter-info .form-row input[type="date"] {
-  max-width: 300px;
-  display: block;
-  margin: 0 auto;
-}
-
-.edit-letter-info .form-row label {
-  text-align: center;
-}
-
-/* ===== LANDING PAGE ===== */
 
 .landing-content {
   max-width: 700px;
@@ -605,7 +444,9 @@ body {
   margin-top: 40px;
 }
 
-/* ===== DASHBOARD ===== */
+/* ========================================
+   DASHBOARD
+   ======================================== */
 .dashboard-tagline {
   text-align: center;
   font-style: italic;
@@ -724,7 +565,187 @@ body {
   transform: translateY(-2px);
 }
 
-/* ===== PROFILE SETTINGS PAGE ===== */
+/* ========================================
+   CREATE LETTER PAGE
+   ======================================== */
+.mood-dropdown {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.weather-selector {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.weather-btn {
+  background: white;
+  border: 2px solid #9B88C4;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.weather-btn:hover {
+  background: #F5F1FF;
+  border-color: #7B68A4;
+  transform: scale(1.1);
+}
+
+.weather-btn.selected {
+  background: #7B68A4;
+  border-color: #7B68A4;
+  box-shadow: 0 4px 8px rgba(123, 104, 164, 0.3);
+}
+
+.weather-temp-row {
+  display: flex;
+  gap: 20px;
+}
+
+.weather-col {
+  flex: 1;
+}
+
+.temp-col {
+  flex: 0.5;
+}
+
+.goal-max-note {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+}
+
+.goal-input-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.goal-input-row input {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid #9B88C4;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.goals-list {
+  border: 2px solid #9B88C4;
+  border-radius: 8px;
+  padding: 15px;
+  min-height: 100px;
+  background: white;
+}
+
+.goals-placeholder {
+  color: #999;
+  font-style: italic;
+  text-align: center;
+}
+
+.goal-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+.goal-item:last-child {
+  border-bottom: none;
+}
+
+.goal-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* ========================================
+   EDIT LETTER PAGE
+   ======================================== */
+.edit-letter-info {
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: -10px;
+}
+
+.edit-letter-info .form-row label {
+  font-size: 18px;
+  text-align: center;
+}
+
+.edit-letter-subtitle {
+  font-size: 18px;
+  font-style: italic;
+  color: #666;
+  line-height: 1.6;
+}
+
+.edit-letter-info .form-row input[type="date"] {
+  max-width: 300px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ========================================
+   REFLECTION PAGE
+   ======================================== */
+.goals-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.goal-progress-item {
+  background: white;
+  border: 2px solid #9B88C4;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.goal-text {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.goal-status-options {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.redelivery-options {
+  display: flex;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+/* ========================================
+   PROFILE SETTINGS PAGE
+   ======================================== */
 .settings-message {
   background: #7B68A4;
   color: white;
@@ -834,18 +855,9 @@ body {
   background-color: #ddd;
 }
 
-/* ===== REQUIRED FIELDS ===== */
-input[required]+label::after,
-select[required]+label::after,
-textarea[required]+label::after,
-label:has(+ input[required])::after,
-label:has(+ select[required])::after,
-label:has(+ textarea[required])::after {
-  content: " *";
-  color: #6A5893;
-}
-
-/* ===== MEDIA QUERIES ===== */
+/* ========================================
+   MEDIA QUERIES
+   ======================================== */
 @media (max-width: 900px) {
   .header {
     flex-direction: column;
@@ -892,7 +904,6 @@ label:has(+ textarea[required])::after {
   .form-inner-box {
     padding: 25px;
   }
-
 }
 
 @media (max-width: 480px) {

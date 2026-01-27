@@ -225,23 +225,23 @@ const CreateLetter = () => {
 
                         {/* Weather/Temp and Location Row */}
                         <div className="form-row-split">
-                       <div className="form-col-half">
-    <div className="weather-temp-row">
-        <div className="weather-col">
-            <label>Weather:</label>
-            <div className="weather-selector">
+                            <div className="form-col-half">
+                                <div className="weather-temp-row">
+                                    <div className="weather-col">
+                                        <label>Weather:</label>
+                                        <div className="weather-selector">
                                             <button type="button" className={`weather-btn ${formData.weather === 'sunny' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('sunny')} title="Sunny">☀️</button>
                                             <button type="button" className={`weather-btn ${formData.weather === 'cloudy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('cloudy')} title="Cloudy">☁️</button>
                                             <button type="button" className={`weather-btn ${formData.weather === 'rainy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('rainy')} title="Rainy">🌧️</button>
                                             <button type="button" className={`weather-btn ${formData.weather === 'snowy' ? 'selected' : ''}`} onClick={() => handleWeatherSelect('snowy')} title="Snowy">❄️</button>
                                         </div>
                                     </div>
-                                 <div className="temp-col">
-            <label>Temp:</label>
-            <input type="number" name="temperature" value={formData.temperature} onChange={handleChange} placeholder="°F" />
-        </div>
-    </div>
-</div>
+                                    <div className="temp-col">
+                                        <label>Temp:</label>
+                                        <input type="number" name="temperature" value={formData.temperature} onChange={handleChange} placeholder="°F" />
+                                    </div>
+                                </div>
+                            </div>
 
                             <div className="form-col-half">
                                 <label>Your current location:</label>
@@ -286,7 +286,7 @@ const CreateLetter = () => {
 
                         {/* Goals */}
                         <div className="form-section">
-<label>Your Goals: <span className="goal-max-note">(Maximum 3 goals)</span></label>
+                            <label>Your Goals: <span className="goal-max-note">(Maximum 3 goals)</span></label>
                             <div className="goal-input-row">
                                 <input
                                     type="text"
