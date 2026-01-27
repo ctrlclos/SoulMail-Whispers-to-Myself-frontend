@@ -1,0 +1,190 @@
+.flip-container {
+    perspective: 1500px;
+    width: 100%
+}
+.flip-card {
+    position: relative;
+    width: 100;
+    min-height: 500px;
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+.flip-container.rtl 
+.flip-card.flipped {
+    transform: rotateY(180deg);
+}
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    min-height: 500px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 2px solid #9b88c4;
+    border-radius: 20px;
+    background: #f5f1ff;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+.flip-card-front {
+    z-index: 2;
+}
+.flip-card-back {
+    transform: rotateY(180deg);
+    z-index: 1;
+}
+.flip-container.rtl
+.flip-card-back {
+    transform: rotateY(-180deg);
+}
+.page-corner {
+    position: absolute;
+    bottom: 0;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    z-index: 10;
+}
+.flip-container.ltr
+.page-corner,
+.flip-container
+.page-corner {
+    right: 0;
+}
+.flip-container.rtl
+.page-corner {
+    left: 0;
+    right: auto;
+}
+.corner-fold {
+    position:absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    transition: all 0.3 ease;
+}
+.flip-container.ltr
+.corner-fold,
+.flip-container
+.corner-fold {
+    right: 0;
+    border-bottom: 40px solid #7b68a4;
+    border-left: 40px solid transparent;
+}
+.flip-container.rtl
+.corner-fold {
+    left: 0;
+    right: auto;
+    border-bottom: 40px solid #7b68a4;
+    border-right: 40px solid transparent;
+    border-left: none;
+}
+.page-corner.hover
+.corner-fold,
+.page-corner:hover
+.corner-fold {
+    border-bottom: 70px;
+}
+.flip-container.ltr .page-corner.hover .corner-fold,
+.flip-container.ltr .page-corner:hover .corner-fold,
+.flip-container .page-corner.hover .corner-fold,
+.flip-container .page-corner:hover .corner-fold {
+    border-left: 70px;
+}
+.flip-container.rtl .page-corner.hover .corner-fold,
+.flip-container.rtl .page-corner:hover .corner-fold {
+    border-right-width: 70px;
+    border-left-width: 0;
+}
+.corner-hint {
+    position: absolute;
+    bottom: 8px;
+    font-size: 11px;
+    color: white;
+    font-weight: bold;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.flip-container.ltr .corner-hint,
+.flip-container .corner-hint {
+    right: 5px;
+}
+.flip-container.rtl .corner-hint {
+    left: 5px;
+    right: auto;
+}
+.page-corner.hover .corner-hint,
+.page-corner:hover .corner-hint {
+    opacity: 1;
+}
+.swipe-hint {
+    display: none;
+    text-align: center;
+    color: #7b68a4;
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 15px;
+    opacity: 0.7;
+}
+@media (max-width: 768px) {
+    .swipe-hint {
+        display: block;
+    }
+    .flip-card{
+        min-height: 400px;
+    }
+    .flip-card-front,
+    .flip-card-back {
+        min-height: 400px;
+    }
+    .corner-fold {
+        border-bottom-width: 50px !important;
+    }
+    .flip-container.ltr .corner-fold,
+    .flip-container .corner-fold {
+        border-bottom-width: 50px !important;
+    }
+    .flip-container.rtl .corner-fold {
+        border-bottom-width: 50px !important;
+    }
+    .corner-hint {
+        opacity: 0.8 !important;
+    }
+}
+@keyframes page-lift {
+    0%{
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+    50% {
+        box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+.flip-card.flipped {
+    animation: page-lift 0.8s ease;
+}
+.flip-card-front,
+.flip-card-back {
+    overflow-y: auto;
+}
+.flip-card-front::before,
+.flip-card-back::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.2) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+.flip-card-front > *:not(.page-corner),
+.flip-card-back > *:not(.page-corner) {
+    position: relative;
+    z-index: 2;
+}
