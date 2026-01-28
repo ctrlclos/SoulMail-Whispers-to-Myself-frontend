@@ -8,7 +8,7 @@ const getAuthHeaders = () => ({
 // GET /users
 const index = async () => {
   try {
-const res = await fetch(BASE_URL, {
+    const res = await fetch(BASE_URL, {
       headers: getAuthHeaders()
     });
     const data = await res.json();
@@ -27,12 +27,12 @@ const res = await fetch(BASE_URL, {
 // GET /users/profile
 const getProfile = async () => {
   try {
-    const res = await fetch (`${BASE_URL}/profile`, {
+    const res = await fetch(`${BASE_URL}/profile`, {
       headers: getAuthHeaders()
     });
     const data = await res.json();
     if (data.err || !data.success) {
-       throw new Error(data.err || data.error || 'Failed to fetch profile');
+      throw new Error(data.err || data.error || 'Failed to fetch profile');
     }
     return data.data;
   } catch (err) {
@@ -44,7 +44,7 @@ const getProfile = async () => {
 // PUT /users/profile
 const updateProfile = async (profileData) => {
   try {
-    const res = await fetch (`${BASE_URL}/profile`, {
+    const res = await fetch(`${BASE_URL}/profile`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(profileData)
@@ -64,7 +64,7 @@ const updateProfile = async (profileData) => {
 const updateSettings = async (settings) => {
   try {
     const res = await fetch(`${BASE_URL}/settings`, {
-      method:'PUT',
+      method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify({ settings })
     });
@@ -75,18 +75,18 @@ const updateSettings = async (settings) => {
     return data.data;
   } catch (err) {
     console.log(err);
-    throw new AggregateError(err);
+    throw new Error(err);
   }
 };
 
 const getStats = async () => {
   try {
     const res = await fetch(`${BASE_URL}/stats`, {
-      hesders: getAuthHeaders()
+      headers: getAuthHeaders()
     });
     const data = await res.json();
     if (data.err || !data.success) {
-      throw new Error(data.err || data.error || 'Failed to fetch stats'); 
+      throw new Error(data.err || data.error || 'Failed to fetch stats');
     }
     return data.data;
   } catch (err) {
@@ -96,9 +96,10 @@ const getStats = async () => {
 };
 
 
-export { index,
+export {
+  index,
   getProfile,
   updateProfile,
   updateSettings,
   getStats
- };
+};

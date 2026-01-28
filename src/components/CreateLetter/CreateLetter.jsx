@@ -7,9 +7,6 @@ import * as letterService from '../../services/letterService';
 const CreateLetter = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const today = new Date().toISOString().split('T')[0];
 
     const [formData, setFormData] = useState({
         title: '',
@@ -100,20 +97,11 @@ const CreateLetter = () => {
                 ...formData,
                 deliveredAt: deliveryDate,
                 goals: formattedGoals
-
-                // goal1: formData.goals[0]?.text || '',
-                // goal2: formData.goals[1]?.text || '',
-                // goal3: formData.goals[2]?.text || ''
             };
 
-            // Don't send mood if it's empty
             if (!dataToSend.mood || dataToSend.mood === '') {
                 delete dataToSend.mood;
             }
-
-            // Remove fields the backend doesn't use
-            // delete dataToSend.goals;
-            // delete dataToSend.deliveryInterval;
 
             await letterService.create(dataToSend);
             navigate('/');
@@ -146,7 +134,6 @@ const CreateLetter = () => {
                     <p className="required-note">* Required fields</p>
                     <form onSubmit={handleSubmit}>
 
-                        {/* Title - full width */}
                         <div className="form-row">
                             <label>Title:</label>
                             <input
@@ -158,7 +145,6 @@ const CreateLetter = () => {
                             />
                         </div>
 
-                        {/* Delivery Interval and Mood - side by side */}
                         <div className="form-row-split">
                             <div className="form-col-half">
                                 <label>Delivery Interval:</label>
@@ -183,7 +169,6 @@ const CreateLetter = () => {
                                     <option value="custom">Custom Date</option>
                                 </select>
 
-                                {/* Show note and date picker only if "Custom Date" is selected */}
                                 {formData.deliveryInterval === 'custom' && (
                                     <>
                                         <p className="form-note">
@@ -223,7 +208,6 @@ const CreateLetter = () => {
                             </div>
                         </div>
 
-                        {/* Weather/Temp and Location Row */}
                         <div className="form-row-split">
                             <div className="form-col-half">
                                 <div className="weather-temp-row">
@@ -249,7 +233,6 @@ const CreateLetter = () => {
                             </div>
                         </div>
 
-                        {/* Current Song */}
                         <div className="form-row">
                             <label>Song I'm currently listening to:</label>
                             <input
@@ -260,7 +243,6 @@ const CreateLetter = () => {
                             />
                         </div>
 
-                        {/* Top Headline */}
                         <div className="form-row">
                             <label>Top Headline:</label>
                             <input
@@ -271,7 +253,6 @@ const CreateLetter = () => {
                             />
                         </div>
 
-                        {/* Your Letter */}
                         <div className="form-section">
                             <label className="large-label">What's on your mind?</label>
                             <textarea
@@ -284,7 +265,6 @@ const CreateLetter = () => {
                             />
                         </div>
 
-                        {/* Goals */}
                         <div className="form-section">
                             <label>Your Goals: <span className="goal-max-note">(Maximum 3 goals)</span></label>
                             <div className="goal-input-row">
@@ -303,6 +283,7 @@ const CreateLetter = () => {
                                     Add Goal
                                 </button>
                             </div>
+                            
                             <div className="goals-list">
                                 {formData.goals.length === 0 ? (
                                     <p className="goals-placeholder">Your goals will appear here</p>
@@ -311,16 +292,21 @@ const CreateLetter = () => {
                                         <div key={index} className="goal-item">
                                             <input type="checkbox" disabled />
                                             <span>{goal.text}</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveGoal(index)}
+                                                className="remove-goal-btn"
+                                            >
+                                                ✕
+                                            </button>
                                         </div>
                                     ))
                                 )}
                             </div>
                         </div>
 
-                        {/* Submit Button */}
                         <button type="submit" className="submit-btn">Create Letter</button>
 
-                        {/* Cancel link */}
                         <div className="cancel-link">
                             <a onClick={() => navigate('/')}>Cancel and return to Dashboard</a>
                         </div>

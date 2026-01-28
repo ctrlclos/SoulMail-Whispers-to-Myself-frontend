@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import './Celebrations.css';
 
-
 const Confetti = ({ duration = 20000 }) => {
-    const[particles, setParticles] = useState([]);
-
-    useEffect(() => {
-        // confetti colors
+    const [particles, setParticles] = useState(() => {
         const colors = [
             '#ff0000', '#00ff00', '#0000ff', '#ffff00',
             '#ff00ff', '#00ffff', '#ffa500', '#ff69b4',
             '#ffd700', '#c0c0c0'
         ];
-        const newParticles = Array.from({ length: 150 }, (_, i) => ({
+        
+        return Array.from({ length: 150 }, (_, i) => ({
             id: i,
             x: Math.random() * 100,
             color: colors[Math.floor(Math.random() * colors.length)],
@@ -21,9 +18,9 @@ const Confetti = ({ duration = 20000 }) => {
             size: 8 + Math.random() * 8,
             rotation: Math.random() * 360
         }));
-        setParticles(newParticles);
+    });
 
-        // cleanup after duration
+    useEffect(() => {
         const timer = setTimeout(() => setParticles([]), duration);
         return () => clearTimeout(timer);
     }, [duration]);
@@ -33,21 +30,22 @@ const Confetti = ({ duration = 20000 }) => {
     return (
         <div className="confetti-container">
             {particles.map((particle) => (
-             <div 
-                key={particle.id}
-                className="confetti-particle"
-                style={{
-                    left: `${particle.x}%`,
-                    backgroundColor: particle.color,
-                    width: `${particle.size}px`,
-                    height: `${particle.size}px`,
-                    animationDelay: `${particle.delay}s`,
-                    animationDuration: `${particle.duration}s`,
-                    transform: `rotate(${particle.rotation}deg)`
-                }}
+                <div 
+                    key={particle.id}
+                    className="confetti-particle"
+                    style={{
+                        left: `${particle.x}%`,
+                        backgroundColor: particle.color,
+                        width: `${particle.size}px`,
+                        height: `${particle.size}px`,
+                        animationDelay: `${particle.delay}s`,
+                        animationDuration: `${particle.duration}s`,
+                        transform: `rotate(${particle.rotation}deg)`
+                    }}
                 />   
             ))}
         </div>
     );
 };
+
 export default Confetti;

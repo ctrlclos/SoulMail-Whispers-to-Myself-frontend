@@ -1,12 +1,10 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router';
-import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
 import * as userService from '../../services/userService';
 
 const ProfileSettings = () => {
     const navigate = useNavigate();
-    const { user } = useContext(UserContext);
 
     const [profile, setProfile] = useState({
         name: '',
