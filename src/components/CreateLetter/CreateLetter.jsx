@@ -2,14 +2,17 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
+import DrawingCanvas from '../DrawingCanvas/DrawingCanvas';
 import * as letterService from '../../services/letterService';
 
 const CreateLetter = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    const [errorMessage, setErrorMessage] = useState('');
 
-    const today = new Date().toISOString().split('T')[0];
+    const [showCanvas, setShowCanvas] = useState(false);
+    const [drawing, setDrawing] = useState(null);
+
+    // const today = new Date().toISOString().split('T')[0];
 
     const [formData, setFormData] = useState({
         title: '',
@@ -56,6 +59,14 @@ const CreateLetter = () => {
         });
     };
 
+    const handleSaveDrawing = (imageData) => {
+        setDrawing(imageData);
+        setShowCanvas(false);
+    };
+
+    const handleRemoveDrawing = () => {
+        setDrawing(null);
+    }
     const calculateDeliveryDate = (interval) => {
         const today = new Date();
 
@@ -99,7 +110,8 @@ const CreateLetter = () => {
             const dataToSend = {
                 ...formData,
                 deliveredAt: deliveryDate,
-                goals: formattedGoals
+                goals: formattedGoals,
+                drawing: drawing
 
                 // goal1: formData.goals[0]?.text || '',
                 // goal2: formData.goals[1]?.text || '',
@@ -283,6 +295,41 @@ const CreateLetter = () => {
                                 required
                             />
                         </div>
+                        {/* ADD: Drawing Section */}
+                        <div className = 'form-section'>
+                            <label className='large-label'>✏️ Add a Drawing/Doodle</label>
+
+                            {!showCanvas && !drawing && (
+                                <button
+                                    type='button'
+                                    onClick={() => setShowCanvas(true)}
+                                    className='add-drawing-btn'>
+                                        🎨 Open Drawing Canvas
+                                    </button>
+                            )}
+
+                            {showCanvas && (
+                                <div className='drawing-section'>
+                                    <DrawingCanvas onSave={handleSaveDrawing} />
+                                    <button
+                                        type='button'
+                                        onClick={() => setShowCanvas(false)}
+                                        className='cancel-drawing-btn'>Cancel</button>
+                                </div>        
+                            )}
+
+                            {drawing && !showCanvas && (
+                                <div className='drawing-preview'>
+                                    <p>Your drawing:</p>
+                                    <img src={drawing} alt='Your drawing' className='drawing-preview-img' />
+                                    <div className='drawing-preview-actions'>
+                                        <button type='button' onClick={() => setShowCanvas(true)}>✏️ Edit</button>
+                                        <button type='button' onClick={handleRemoveDrawing}>🗑️ Trash it</button>
+
+                                    </div>
+                                </div>
+                            )}
+                        </div>    
 
                         {/* Goals */}
                         <div className="form-section">
