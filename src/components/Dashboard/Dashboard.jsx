@@ -5,7 +5,8 @@ import NavBar from '../NavBar/NavBar';
 import { CelebrationModal } from '../Celebrations';
 import { checkCelebrations, getCelebrationMessage, CELEBRATION_TYPES } from '../../utils/celebrationUtils';
 import * as letterService from '../../services/letterService';
-import * as userService from '../../services/userService'
+import * as userService from '../../services/userService';
+import { Affirmation } from '../AI';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
@@ -89,6 +90,7 @@ const Dashboard = () => {
         <div className="greeting">
           Elevated Salutations, {user?.username}
         </div>
+        <Affirmation className="dashboard-affirmation" loadingText="" />
         <p className="dashboard-tagline">Leave yourself a whisper</p>
 
 

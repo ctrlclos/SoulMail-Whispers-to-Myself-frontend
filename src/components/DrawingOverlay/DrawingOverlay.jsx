@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect} from 'react';
+import { useRef, useState, useEffect } from 'react';
 import './DrawingOverlay.css';
 
 const DrawingOverlay = ({ isActive, onSave, onClose }) => {
@@ -15,13 +15,14 @@ const DrawingOverlay = ({ isActive, onSave, onClose }) => {
         '#96ceb4'
     ];
     // Initialize  transparentvcanvas
+    // Initialize  transparentvcanvas
     useEffect(() => {
         if (!isActive) return;
 
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
 
-    // Make Canvas size match parent
+        // Make Canvas size match parent
         const parent = canvas.parentElement;
         canvas.width = parent.offsetWidth;
         canvas.height = parent.offsetHeight;
@@ -29,7 +30,7 @@ const DrawingOverlay = ({ isActive, onSave, onClose }) => {
         // Keep transparent 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }, [isActive]);
-    
+
     const getPosition = (e) => {
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
@@ -40,16 +41,16 @@ const DrawingOverlay = ({ isActive, onSave, onClose }) => {
                 y: e.touches[0].clientY - rect.top
             };
         }
-            return {
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
+        return {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
         };
     };
 
     const startDrawing = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const { x,y } = getPosition(e);
+        const { x, y } = getPosition(e);
         const ctx = canvasRef.current.getContext('2d');
         ctx.beginPath();
         ctx.moveTo(x, y);
@@ -85,27 +86,29 @@ const DrawingOverlay = ({ isActive, onSave, onClose }) => {
         if (onSave) onSave(imageData);
     };
 
+    if (!isActive) return null;
+
     return (
         <div className='drawing-overlay-container'>
             {/* Toolbar */}
             <div className='overlay-toolbar'>
                 <div className='overlay-colors'>
-                {colors.map((c) => (
-                    <button
-                        key={c}
-                        className={`overlay-color-btn ${color === c ? 'active' : ''}`}
-                        style={{ backgroundColor: c }}
-                        onClick={() => setColor(c)}
-                    />
-                ))}
-            </div>
+                    {colors.map((c) => (
+                        <button
+                            key={c}
+                            className={`overlay-color-btn ${color === c ? 'active' : ''}`}
+                            style={{ backgroundColor: c }}
+                            onClick={() => setColor(c)}
+                        />
+                    ))}
+                </div>
 
-            <div className='overlay-actions'>
-                <button onClick={handleClear} className='overlay-btn-clear'>🗑️ Clear</button>
-                <button onClick={handleSave} className='overlay-btn-save'>💾 Save</button>
-                <button onClick={onClose} className='overlay-btn-close'>✖️ Done</button>
+                <div className='overlay-actions'>
+                    <button onClick={handleClear} className='overlay-btn-clear'>🗑️ Clear</button>
+                    <button onClick={handleSave} className='overlay-btn-save'>💾 Save</button>
+                    <button onClick={onClose} className='overlay-btn-close'>✖️ Done</button>
+                </div>
             </div>
-        </div>
 
             {/* Transparent Canvas */}
             <canvas
@@ -120,7 +123,7 @@ const DrawingOverlay = ({ isActive, onSave, onClose }) => {
                 onTouchEnd={stopDrawing}
             />
 
-            </div>
+        </div>
     );
 };
 

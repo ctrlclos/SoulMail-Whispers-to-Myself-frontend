@@ -131,12 +131,11 @@ const LetterDetails = () => {
         if (!confirmDelete) return;
 
         try {
-            setFormError(null);
             const updatedLetter = await letterService.deleteReflection(id, reflectionId);
             setLetter(updatedLetter);
         } catch (err) {
             console.error(err);
-            setFormError(err.message);
+            setError('Failed to delete reflection.');
         }
     };
 
@@ -530,47 +529,13 @@ const LetterDetails = () => {
                                 ))}
                             </div>
                         ) : (
-                            <p className="no-reflections">No reflections yet. Add one below!</p>
+                            <p className="no-reflections">No reflections yet.</p>
                         )}
 
-                        <form onSubmit={handleAddReflection} className="reflection-form">
-                            {formError && (
-                                <div className="form-error-inline">
-                                    <span className="form-error-message">{formError}</span>
-                                    <button
-                                        type="button"
-                                        className="form-error-dismiss"
-                                        onClick={() => setFormError(null)}
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            )}
-                            <textarea
-                                value={reflectionInput}
-                                onChange={(e) => {
-                                    setReflectionInput(e.target.value);
-                                    if (formError) setFormError(null);
-                                }}
-                                placeholder="Write a reflection on how you feel reading this letter now..."
-                                rows="4"
-                                disabled={submittingReflection}
-                                className={formError ? 'input-error' : ''}
-                            />
-                            <div className="reflection-form-footer">
-                                <span className={`char-count ${reflectionInput.length < 50 ? 'char-count-warning' : ''}`}>
-                                    {reflectionInput.length}/50 minimum characters
-                                </span>
-                                <button
-                                    type="submit"
-                                    className="submit-btn"
-                                    disabled={submittingReflection || !reflectionInput.trim()}
-                                >
-                                    {submittingReflection ? 'Adding...' : 'Add Reflection'}
-                                </button>
-                            </div>
-                        </form>
-                        <p className='flip-hint'>Flip back to read your letter 👉</p>
+                        <Link to={`/letters/${id}/reflection`} className="add-reflection-btn">
+                            Add a Reflection
+                        </Link>
+                        <p className='flip-hint'>Flip back to read your letter</p>
         </div>
         );
 
@@ -603,28 +568,30 @@ const LetterDetails = () => {
                     isActive={drawingMode}
                     onSave={handleSaveOverlay}
                     onClose={() => setDrawingMode(false)}
-                    />
-                </div>
+                />
 
                 {/* Letter Actions */}
                 <div className='letter-actions-secton'>
                     <button
                         onClick={() => setDrawingMode(true)}
                         className='draw-btn'
-                        disabled={drawingMode}>✏️ Draw on Letter</button>
+                        disabled={drawingMode}>Draw on Letter</button>
 
-                    {(letter.drawing || letter.overlayDrawinging)} && (
-                    <button onClick={handleDeleteDrawing} className='delete-drawing-btn'>🗑️ Delete Drawing</button>
-                    )
+                    {(letter.drawing || letter.overlayDrawinging) && (
+                    <button onClick={handleDeleteDrawing} className='delete-drawing-btn'>Delete Drawing</button>
+                    )}
                 </div>
 
-                    <div className="letter-actions-section">
-                        <button onClick={handleDelete} className="delete-btn-large">
-                            Delete Letter
-                        </button>
-                    </div>
+                {/* Flip Letter Component */}
+                <FlipLetter front={letterFront} back={letterBack} />
+
+                <div className="letter-actions-section">
+                    <button onClick={handleDelete} className="delete-btn-large">
+                        Delete Letter
+                    </button>
                 </div>
-            </div>    
+            </div>
+        </div>
     );
 };
 

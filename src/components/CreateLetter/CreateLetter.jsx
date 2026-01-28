@@ -4,6 +4,7 @@ import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
 import DrawingCanvas from '../DrawingCanvas/DrawingCanvas';
 import * as letterService from '../../services/letterService';
+import { useWritingPrompts } from '../AI';
 
 const CreateLetter = () => {
     const navigate = useNavigate();
@@ -29,6 +30,8 @@ const CreateLetter = () => {
     });
 
     const [goalInput, setGoalInput] = useState('');
+    const [showPrompts, setShowPrompts] = useState(false);
+    const { prompts, loading: promptsLoading, fetch: fetchPrompts } = useWritingPrompts();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -272,6 +275,34 @@ const CreateLetter = () => {
                             />
                         </div>
 
+                        {/* Writing Inspiration */}
+                        <div className="writing-inspiration">
+                            <button
+                                type="button"
+                                className="inspiration-btn"
+                                onClick={() => {
+                                    setShowPrompts(!showPrompts);
+                                    if (!prompts.length && !promptsLoading) {
+                                        fetchPrompts({ mood: formData.mood, count: 3 });
+                                    }
+                                }}
+                            >
+                                {showPrompts ? 'Hide Inspiration' : 'Need Writing Inspiration?'}
+                            </button>
+                            {showPrompts && (
+                                <div className="prompts-list">
+                                    {promptsLoading ? (
+                                        <p className="prompts-loading">Getting inspiration...</p>
+                                    ) : (
+                                        prompts.map((prompt, idx) => (
+                                            <p key={idx} className="prompt-item">{prompt}</p>
+                                        ))
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Your Letter */}
                         <div className="form-section">
                             <label className="large-label">What's on your mind?</label>
                             <textarea
