@@ -1,0 +1,49 @@
+demo-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    border: 2px solid #7b68a4;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0,0.3);
+    width: 180px;
+}
+.demo-panel h3 {
+    margin: 0 0 15px 0;
+    color: #7b68a4;
+    font-size: 14px;
+    text-align: center;
+}
+.demo-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.demo-buttons button {
+    padding: 8px 12px;
+    border: 1px solid #9b88c4;
+    border-radius: 6px;
+    background: #f5F1FF;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+.demo-buttons button:hover {
+    background: #7b68a4;
+    color: white;
+}
+.demo-close {
+    margin-top: 15px;
+    width: 100%;
+    padding: 8px;
+    background: #eee;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.demo-close:hover {
+    background: #ddd;
+}
