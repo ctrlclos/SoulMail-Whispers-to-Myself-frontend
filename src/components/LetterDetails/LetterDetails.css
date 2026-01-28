@@ -614,3 +614,60 @@
   font-size: 28px;
   margin: 0 0 10px 0;
 }
+.letter-with-overlay {
+  position: relative;
+}
+.draw-btn {
+  padding: 12px 25px;
+  background: #F5F1FF;
+  border: 2px solid #7B68A4;
+  border-radius: 8px;
+  color: #7B68A4;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-right: 15px;
+}
+.draw-btn:hover {
+  background: #7B68A4;
+  color: white;
+}
+.draw-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.delete-drawing-btn {
+  padding: 12px 25px;
+  background: #fff3e0;
+  border: 2px solid #ff9800;
+  border-radius: 8px;
+  color: #e65100;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all0.3s;
+  margin-right: 15px;
+}
+.delete-drawing-btn:hover {
+  background: #ff9800;
+  color: white;
+}
+.letter-drawing-section,
+.letter-overlay-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #faf9fc;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+.letter-drawing-section h3,
+.letter-overlay-section h3 {
+  color: #7b68A4;
+  margin: 0 0 0 10px 0;
+  font-size: 16px;
+}
+.letter-drawing-img,
+.letter-drawing-img {
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
