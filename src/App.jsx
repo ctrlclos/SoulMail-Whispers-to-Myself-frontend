@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Routes, Route, useLocation } from 'react-router';
 import './App.css';
+import DemoPanel from './components/DemoPanel/DemoPanel'
 
 import NavBar from './components/NavBar/NavBar';
 import SignUpForm from './components/SignUpForm/SignUpForm';
@@ -38,6 +39,8 @@ const App = () => {
 
         <Route path="/letters/:id/reflection" element={user ? <ReflectionPage /> : <Landing />} />
       </Routes>
+      
+      <DemoPanel />
     </>
   );
 };

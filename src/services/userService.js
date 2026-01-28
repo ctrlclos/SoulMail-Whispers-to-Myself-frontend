@@ -44,13 +44,13 @@ const getProfile = async () => {
 // PUT /users/profile
 const updateProfile = async (profileData) => {
   try {
-    const res = await fetch (`$(BASE_URL)/profile`, {
+    const res = await fetch (`${BASE_URL}/profile`, {
       method: 'PUT',
       headers: getAuthHeaders(),
       body: JSON.stringify(profileData)
     });
     const data = await res.json();
-    if (data.err || data.success) {
+    if (data.err || !data.success) {
       throw new Error(data.err || data.error || 'Failed to update profile');
     }
     return data.data;
