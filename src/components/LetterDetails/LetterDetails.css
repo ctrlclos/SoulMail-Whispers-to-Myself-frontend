@@ -736,3 +736,14 @@
   border-radius: 8px;
   border: 1px solid #ddd;
 }
+
+/* Song Preview Section */
+.letter-song-section {
+  margin-top: 25px;
+}
+
+.letter-song-section h3 {
+  font-size: 18px;
+  color: #7B68A4;
+  margin-bottom: 10px;
+}

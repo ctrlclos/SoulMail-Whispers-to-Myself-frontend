@@ -4,7 +4,9 @@ import { UserContext } from '../../contexts/UserContext';
 import NavBar from '../NavBar/NavBar';
 import DrawingCanvas from '../DrawingCanvas/DrawingCanvas';
 import * as letterService from '../../services/letterService';
+import * as itunesService from '../../services/itunesService';
 import { useWritingPrompts } from '../AI';
+import SongPreview from '../SongPreview/SongPreview';
 
 const CreateLetter = () => {
     const navigate = useNavigate();
@@ -32,6 +34,12 @@ const CreateLetter = () => {
     const [goalInput, setGoalInput] = useState('');
     const [showPrompts, setShowPrompts] = useState(false);
     const { prompts, loading: promptsLoading, fetch: fetchPrompts } = useWritingPrompts();
+
+    // Song search state
+    const [songSearchTerm, setSongSearchTerm] = useState('');
+    const [songResults, setSongResults] = useState([]);
+    const [songSearchLoading, setSongSearchLoading] = useState(false);
+    const [selectedSong, setSelectedSong] = useState(null);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,6 +78,36 @@ const CreateLetter = () => {
     const handleRemoveDrawing = () => {
         setDrawing(null);
     }
+
+    const handleSongSearch = async () => {
+        if (!songSearchTerm.trim()) return;
+
+        setSongSearchLoading(true);
+        try {
+            const results = await itunesService.searchSongs(songSearchTerm);
+            setSongResults(results);
+        } catch (err) {
+            console.error('Error searching songs:', err);
+            setSongResults([]);
+        } finally {
+            setSongSearchLoading(false);
+        }
+    };
+
+    const handleSelectSong = (song) => {
+        setSelectedSong({
+            trackName: song.trackName,
+            artistName: song.artistName,
+            artworkUrl: song.artworkUrl100,
+            previewUrl: song.previewUrl
+        });
+        setSongResults([]);
+        setSongSearchTerm('');
+    };
+
+    const handleRemoveSong = () => {
+        setSelectedSong(null);
+    };
     const calculateDeliveryDate = (interval) => {
         const today = new Date();
 
@@ -114,11 +152,8 @@ const CreateLetter = () => {
                 ...formData,
                 deliveredAt: deliveryDate,
                 goals: formattedGoals,
-                drawing: drawing
-
-                // goal1: formData.goals[0]?.text || '',
-                // goal2: formData.goals[1]?.text || '',
-                // goal3: formData.goals[2]?.text || ''
+                drawing: drawing,
+                song: selectedSong
             };
 
             if (!dataToSend.mood || dataToSend.mood === '') {
@@ -257,12 +292,84 @@ const CreateLetter = () => {
 
                         <div className="form-row">
                             <label>Song I'm currently listening to:</label>
-                            <input
-                                type="text"
-                                name="currentSong"
-                                value={formData.currentSong}
-                                onChange={handleChange}
-                            />
+
+                            {/* Selected song display */}
+                            {selectedSong ? (
+                                <>
+                                    <div className="selected-song">
+                                        <img
+                                            src={selectedSong.artworkUrl}
+                                            alt={selectedSong.trackName}
+                                            className="song-artwork"
+                                        />
+                                        <div className="song-info">
+                                            <span className="song-track">{selectedSong.trackName}</span>
+                                            <span className="song-artist">{selectedSong.artistName}</span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={handleRemoveSong}
+                                            className="remove-song-btn"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                    <SongPreview
+                                        url={selectedSong.previewUrl}
+                                        trackName={selectedSong.trackName}
+                                        artistName={selectedSong.artistName}
+                                        artworkUrl={selectedSong.artworkUrl}
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    {/* Song search input */}
+                                    <div className="song-search-row">
+                                        <input
+                                            type="text"
+                                            value={songSearchTerm}
+                                            onChange={(e) => setSongSearchTerm(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    e.preventDefault();
+                                                    handleSongSearch();
+                                                }
+                                            }}
+                                            placeholder="Search for a song..."
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleSongSearch}
+                                            disabled={songSearchLoading}
+                                        >
+                                            {songSearchLoading ? 'Searching...' : 'Search'}
+                                        </button>
+                                    </div>
+
+                                    {/* Search results */}
+                                    {songResults.length > 0 && (
+                                        <div className="song-results">
+                                            {songResults.map((song) => (
+                                                <div
+                                                    key={song.trackId}
+                                                    className="song-result-item"
+                                                    onClick={() => handleSelectSong(song)}
+                                                >
+                                                    <img
+                                                        src={song.artworkUrl100}
+                                                        alt={song.trackName}
+                                                        className="song-result-artwork"
+                                                    />
+                                                    <div className="song-result-info">
+                                                        <span className="song-result-track">{song.trackName}</span>
+                                                        <span className="song-result-artist">{song.artistName}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </>
+                            )}
                         </div>
 
                         <div className="form-row">

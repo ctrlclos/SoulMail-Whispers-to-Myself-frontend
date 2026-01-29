@@ -8,6 +8,7 @@ import * as letterService from '../../services/letterService';
 import './LetterDetails.css';
 import FlipLetter from '../FlipLetter/FlipLetter';
 import DrawingOverlay from '../DrawingOverlay/DrawingOverlay';
+import SongPreview from '../SongPreview/SongPreview';
 
 const moods = {
     '☺️': { emoji: '☺️', label: 'Happy' },
@@ -357,6 +358,19 @@ const LetterDetails = () => {
                     {letter.content}
                 </div>
             </div>
+
+            {/* Song Preview */}
+            {letter.song && letter.song.previewUrl && (
+                <div className='letter-song-section'>
+                    <h3>What You Were Listening To</h3>
+                    <SongPreview
+                        url={letter.song.previewUrl}
+                        trackName={letter.song.trackName}
+                        artistName={letter.song.artistName}
+                        artworkUrl={letter.song.artworkUrl}
+                    />
+                </div>
+            )}
 
             {/* Display drawing */}
             {letter.drawing && (
