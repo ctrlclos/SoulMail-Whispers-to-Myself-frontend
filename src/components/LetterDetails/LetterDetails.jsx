@@ -7,7 +7,23 @@ import { getCelebrationMessage, CELEBRATION_TYPES } from '../../utils/celebratio
 import * as letterService from '../../services/letterService';
 import './LetterDetails.css';
 import FlipLetter from '../FlipLetter/FlipLetter';
-import DrawingOverlay from '../DrawingOverlay/DrawingOverlay'
+import DrawingOverlay from '../DrawingOverlay/DrawingOverlay';
+
+const moods = {
+    '☺️': { emoji: '☺️', label: 'Happy' },
+    '😢': { emoji: '😢', label: 'Sad' },
+    '😰': { emoji: '😰', label: 'Anxious' },
+    '🤩': { emoji: '🤩', label: 'Excited' },
+    '🙏': { emoji: '🙏', label: 'Grateful' },
+    '😫': { emoji: '😫', label: 'Exhausted' }
+};
+
+const weatherIcons = {
+    sunny: '☀️',
+    cloudy: '☁️',
+    rainy: '🌧️',
+    snowy: '❄️'
+};
 
 const LetterDetails = () => {
     const { id } = useParams();
@@ -35,23 +51,6 @@ const LetterDetails = () => {
 
     // Drawing State
     const [drawingMode, setDrawingMode] = useState(false);
-
-
-    const moods = {
-        '☺️': { emoji: '☺️', label: 'Happy' },
-        '😢': { emoji: '😢', label: 'Sad' },
-        '😰': { emoji: '😰', label: 'Anxious' },
-        '🤩': { emoji: '🤩', label: 'Excited' },
-        '🙏': { emoji: '🙏', label: 'Grateful' },
-        '😫': { emoji: '😫', label: 'Exhausted' }
-    };
-
-    const weatherIcons = {
-        sunny: '☀️',
-        cloudy: '☁️',
-        rainy: '🌧️',
-        snowy: '❄️'
-    };
 
     // Fetch Letter
     useEffect(() => {
@@ -92,7 +91,6 @@ const LetterDetails = () => {
     // Delete letter handler
     const handleDelete = async () => {
         const confirmDelete = window.confirm('Are you sure you want to delete this letter? This action cannot be undone.');
-
         if (!confirmDelete) return;
 
         try {
@@ -127,7 +125,6 @@ const LetterDetails = () => {
     // Delete reflection handler
     const handleDeleteReflection = async (reflectionId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this reflection?');
-
         if (!confirmDelete) return;
 
         try {
@@ -150,7 +147,7 @@ const LetterDetails = () => {
                 setCelebration({
                     type: CELEBRATION_TYPES.GOAL_ACCOMPLISHED,
                     ...getCelebrationMessage('goalAccomplished', { goalText: goals?.text })
-            });
+                });
             }
         } catch (err) {
             console.log(err);
@@ -164,15 +161,15 @@ const LetterDetails = () => {
             const reflection = goalReflections[goalId];
             if (!reflection?.trim()) return;
 
-            const updatedLetter =await letterService.addGoalReflection(id, goalId, reflection);
+            const updatedLetter = await letterService.addGoalReflection(id, goalId, reflection);
             setLetter(updatedLetter);
             setGoalReflections({ ...goalReflections, [goalId]: '' });
         } catch (err) {
-            console.log(err)
+            console.log(err);
             setFormError(err.message);
         }
     };
-    
+
     // Carry forward goal handler
     const handleCarryForward = async (goalId) => {
         try {
@@ -207,8 +204,8 @@ const LetterDetails = () => {
 
     // Handle delete Drawing
     const handleDeleteDrawing = async () => {
-        const confirmDelete = window.confirm('Are you sure?')
-        if(!confirmDelete) return;
+        const confirmDelete = window.confirm('Are you sure?');
+        if (!confirmDelete) return;
 
         try {
             const updatedLetter = await letterService.deleteDrawing(id);
@@ -218,7 +215,7 @@ const LetterDetails = () => {
             setFormError('Failed to delete drawing');
         }
     };
-    
+
     // Helper Functions
     const getStatusEmoji = (status) => {
         const emojis = {
@@ -313,23 +310,23 @@ const LetterDetails = () => {
                         <span className='metadata-value'>
                             {moods[letter.mood].emoji} {moods[letter.mood].label}
                         </span>
-                    </div>    
+                    </div>
                 )}
 
                 {letter.weather && weatherIcons[letter.weather] && (
                     <div className='metadata-item'>
                         <span className='metadata-label'>Weather:</span>
                         <span className='metadata-value'>
-                            {weatherIcons[letter.weather]} {letter.weather.charAt(0).toUpperCase() + letter.weather.slice(1)}
+                            {weatherIcons[letter.weather]} {letter.weather?.charAt(0).toUpperCase() + letter.weather?.slice(1)}
                         </span>
-                     </div>   
+                    </div>
                 )}
 
                 {letter.temperature && (
                     <div className='metadata-item'>
                         <span className='metadata-label'>Temperature:</span>
                         <span className='metadata-value'>{letter.temperature}℉</span>
-                    </div>    
+                    </div>
                 )}
 
                 {letter.location && (
@@ -366,7 +363,7 @@ const LetterDetails = () => {
                 <div className='letter-drawing-section'>
                     <h3>Your Drawing</h3>
                     <img src={letter.drawing} alt='Your drawing' className='letter-drawing-img' />
-                </div>    
+                </div>
             )}
 
             {/* Display Overlay Doodle */}
@@ -374,7 +371,7 @@ const LetterDetails = () => {
                 <div className='letter-overlay-section'>
                     <h3>Your Annotations</h3>
                     <img src={letter.overlayDrawing} alt='Your annotations' className='letter-overlay-img' />
-                </div>    
+                </div>
             )}
 
             {/* Old Goals Format */}
@@ -385,118 +382,121 @@ const LetterDetails = () => {
                         {[letter.goal1, letter.goal2, letter.goal3]
                             .filter(goal => goal)
                             .map((goal, index) => (
-                <div key={index} className="goal-item-display">
-                        <span>{goal}</span>
+                                <div key={index} className="goal-item-display">
+                                    <span>{goal}</span>
+                                </div>
+                            ))}
                     </div>
-                ))}
-            </div>
-        </div>
-                    )}
-                    {/* New Goals Array Format */}
-                    {letter.goals && letter.goals.length > 0 && (
-                        <div className='letter-goals-section'>
-                            <h3>Your Goals ({letter.goals.length})</h3>
+                </div>
+            )}
+            
+            {/* New Goals Array Format */}
+            {letter.goals && letter.goals.length > 0 && (
+                <div className='letter-goals-section'>
+                    <h3>Your Goals ({letter.goals.length})</h3>
 
-                            {letter.goals.map((goal) => (
-                                <div key={goal._id} className='goal-card'>
-                                    <div className='goal-header'>
-                                        <span className='goal-status-emoji'>{getStatusEmoji(goal.status)}</span>
-                                        <span className='goal-text'>{goal.text}</span>
-                                        <span className='goal-status-label'>{getStatusLabel(goal.status)}</span>
-                                    </div>
-                    {goal.reflection && (
-                        <div className='goal-reflection-display'>
-                            <p><em>"{goal.reflection}"</em></p>
+                    {letter.goals.map((goal) => (
+                        <div key={goal._id} className='goal-card'>
+                            <div className='goal-header'>
+                                <span className='goal-status-emoji'>{getStatusEmoji(goal.status)}</span>
+                                <span className='goal-text'>{goal.text}</span>
+                                <span className='goal-status-label'>{getStatusLabel(goal.status)}</span>
                             </div>
-                    )}  
-
-                    {/* Carried Forward Info */}
-                    {goal.carriedForwardTo && (
-                        <p className='carried-forward-info'>➡️ Carried forward to another letter</p>
-                    )}
-                    {goal.carriedForwardFrom && (
-                        <p className='carried-forward-info'>⬅️ Carried forward from previous letter</p>
-                    )}
-
-                    {/* Goal Actions Pending */}
-                    {letter.isDelivered && goal.status === 'pending' && (
-                        <div className='goal-actions'>
-                            <button
-                            className='goal-btn-accomplished'
-                            onClick={() => handleGoalStatusChange(goal._id, 'accomplished')}>✅ Accomplished</button>
-                            <button
-                            className='goal-btn-in-progress'
-                            onClick={() => handleGoalStatusChange(goal._id, 'inProgress')}>🔄 In Progess</button>
-'                           <button
-                            className='goal-btn-carry-forward'
-                            onClick={() => setShowCarryForward(goal._id, 'carryForward')}>➡️ Carry Forward</button>
-                            <button
-                            className='goal-btn-abandon'
-                            onClick={() => handleGoalStatusChange(goal._id, 'abandoned')}>🛑 Release</button>
-                        </div>    
-                    )}
-
-                    {/* In Progress to be completed */}
-                    {letter.isDelivered && goal.status === 'inProgress' && (
-                        <div className='goal-actions'>
-                            <button
-                            className='goal-btn-accomplished'
-                            onClick={() => handleGoalStatusChange(goal._id, 'accomplished')}>✅ Mark Accomplished</button>
-                            <button
-                            className='goal-btn-carry-forward'
-                            onClick={() => setShowCarryForward(goal._id, 'carryForward')}>➡️ Carry Forward</button>
-                        </div>    
-                    )}
-
-                    {/* Add Goal Reflection */}
-                    {letter.isDelievered && goal.status !== 'pending' && !goal.reflection && (
-                        <div className='goal-reflection-form'>
-                            <input
-                                type='text'
-                                placeholder='Add a note about this goal...'
-                                value= {goalReflections[goal._id] || ''}
-                                onChange={(e) => setGoalReflections({
-                                    ...goalReflections,
-                                    [goal._id]: e.target.value
-                                })}
-                                maxLength={175}
-                                />
-                            <button onClick={() => handleAddGoalReflection(goal._id)}>Add</button>
-                        </div>    
-                    )}
-                    {/* Carry Forward Modal */}
-                    {showCarryForward === goal._id && (
-                        <div className='carry-forward-modal'>
-                            <h4>Carry this goal to:</h4>
-                            {availableLetters.length === 0 ? (
-                                <p>No undelivered letters available. Create a new letter first!</p>
-                            ) : (
-                                <>
-                                <select 
-                                    value={selectedLetter}
-                                    onChange={(e) => setSelectedLetters(e.target.value)}>
-
-                                   <option value="">Select a letter...</option>
-                                   {availableLetters.map((l) => (
-                                        <option key={l._id} value={l._id}>
-                                            {l.title} (Delivers:{formatDate(l.deliveredAt)})
-                                        </option>
-                                   ))} 
-                                </select>
-                                <div className='carry-forward-actions'>
-                                    <button onClick={() => handleCarryForward(goal._id)}>Carry Forward</button>
-                                    <button onClick={() => setShowCarryForward(null)}>Cancel</button>
-                                    </div>    
-                                </>
+                            
+                            {goal.reflection && (
+                                <div className='goal-reflection-display'>
+                                    <p><em>"{goal.reflection}"</em></p>
+                                </div>
                             )}
-                        </div>    
-                    )}
-                </div>    
-            ))}
-        </div>          
-    )}
-    <p className='flip-hint'>Flip the page to add or view reflections 👉</p>
-</div>
+
+                            {/* Carried Forward Info */}
+                            {goal.carriedForwardTo && (
+                                <p className='carried-forward-info'>➡️ Carried forward to another letter</p>
+                            )}
+                            {goal.carriedForwardFrom && (
+                                <p className='carried-forward-info'>⬅️ Carried forward from previous letter</p>
+                            )}
+
+                            {/* Goal Actions Pending */}
+                            {letter.isDelivered && goal.status === 'pending' && (
+                                <div className='goal-actions'>
+                                    <button
+                                        className='goal-btn-accomplished'
+                                        onClick={() => handleGoalStatusChange(goal._id, 'accomplished')}>✅ Accomplished</button>
+                                    <button
+                                        className='goal-btn-in-progress'
+                                        onClick={() => handleGoalStatusChange(goal._id, 'inProgress')}>🔄 In Progress</button>
+                                    <button
+                                        className='goal-btn-carry-forward'
+                                        onClick={() => setShowCarryForward(goal._id)}>➡️ Carry Forward</button>
+                                    <button
+                                        className='goal-btn-abandon'
+                                        onClick={() => handleGoalStatusChange(goal._id, 'abandoned')}>🛑 Release</button>
+                                </div>
+                            )}
+
+                            {/* In Progress to be completed */}
+                            {letter.isDelivered && goal.status === 'inProgress' && (
+                                <div className='goal-actions'>
+                                    <button
+                                        className='goal-btn-accomplished'
+                                        onClick={() => handleGoalStatusChange(goal._id, 'accomplished')}>✅ Mark Accomplished</button>
+                                    <button
+                                        className='goal-btn-carry-forward'
+                                        onClick={() => setShowCarryForward(goal._id)}>➡️ Carry Forward</button>
+                                </div>
+                            )}
+
+                            {/* Add Goal Reflection - FIXED TYPO HERE (isDelivered) */}
+                            {letter.isDelivered && goal.status !== 'pending' && !goal.reflection && (
+                                <div className='goal-reflection-form'>
+                                    <input
+                                        type='text'
+                                        placeholder='Add a note about this goal...'
+                                        value={goalReflections[goal._id] || ''}
+                                        onChange={(e) => setGoalReflections({
+                                            ...goalReflections,
+                                            [goal._id]: e.target.value
+                                        })}
+                                        maxLength={175}
+                                    />
+                                    <button onClick={() => handleAddGoalReflection(goal._id)}>Add</button>
+                                </div>
+                            )}
+                            
+                            {/* Carry Forward Modal */}
+                            {showCarryForward === goal._id && (
+                                <div className='carry-forward-modal'>
+                                    <h4>Carry this goal to:</h4>
+                                    {availableLetters.length === 0 ? (
+                                        <p>No undelivered letters available. Create a new letter first!</p>
+                                    ) : (
+                                        <>
+                                            <select
+                                                value={selectedLetter}
+                                                // FIXED CRASH HERE: setSelectedLetters -> setSelectedLetter
+                                                onChange={(e) => setSelectedLetter(e.target.value)}> 
+                                                <option value="">Select a letter...</option>
+                                                {availableLetters.map((l) => (
+                                                    <option key={l._id} value={l._id}>
+                                                        {l.title} (Delivers:{formatDate(l.deliveredAt)})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <div className='carry-forward-actions'>
+                                                <button onClick={() => handleCarryForward(goal._id)}>Carry Forward</button>
+                                                <button onClick={() => setShowCarryForward(null)}>Cancel</button>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
+            <p className='flip-hint'>Flip the page to add or view reflections 👉</p>
+        </div>
     );
 
     // Back Side - Reflections
@@ -504,49 +504,50 @@ const LetterDetails = () => {
         <div className='letter-back-content'>
             <div className='letter-header-section'>
                 <h2>✨ Reflections</h2>
-                <p className='letter-delivery-date'>Lokking back at: {letter.title}</p>
-        </div>
-                        
-                        {letter.reflections && letter.reflections.length > 0 ? (
-                            <div className="reflections-list">
-                                {letter.reflections.map((reflection) => (
-                                    <div key={reflection._id} className="reflection-item">
-                                        <div className="reflection-content">
-                                            {reflection.reflection}
-                                        </div>
-                                        <div className="reflection-footer">
-                                            <span className="reflection-date">
-                                                {formatDate(reflection.date)}
-                                            </span>
-                                            <button
-                                                onClick={() => handleDeleteReflection(reflection._id)}
-                                                className="reflection-delete-btn"
-                                            >
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
+                {/* Fixed typo 'Lokking' -> 'Looking' */}
+                <p className='letter-delivery-date'>Looking back at: {letter.title}</p>
+            </div>
+
+            {letter.reflections && letter.reflections.length > 0 ? (
+                <div className="reflections-list">
+                    {letter.reflections.map((reflection) => (
+                        <div key={reflection._id} className="reflection-item">
+                            <div className="reflection-content">
+                                {reflection.reflection}
                             </div>
-                        ) : (
-                            <p className="no-reflections">No reflections yet.</p>
-                        )}
+                            <div className="reflection-footer">
+                                <span className="reflection-date">
+                                    {formatDate(reflection.date)}
+                                </span>
+                                <button
+                                    onClick={() => handleDeleteReflection(reflection._id)}
+                                    className="reflection-delete-btn"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : (
+                <p className="no-reflections">No reflections yet.</p>
+            )}
 
-                        <Link to={`/letters/${id}/reflection`} className="add-reflection-btn">
-                            Add a Reflection
-                        </Link>
-                        <p className='flip-hint'>Flip back to read your letter</p>
+            <Link to={`/letters/${id}/reflection`} className="add-reflection-btn">
+                Add a Reflection
+            </Link>
+            <p className='flip-hint'>Flip back to read your letter</p>
         </div>
-        );
+    );
 
-        {/* Main Render */}
+    // Main Render
     return (
         <div className="page-container">
             {/* Celebration Modal */}
             {celebration && (
                 <CelebrationModal
-                celebration={celebration}
-                onClose={handleCelebrationClose}
+                    celebration={celebration}
+                    onClose={handleCelebrationClose}
                 />
             )}
 
@@ -558,32 +559,30 @@ const LetterDetails = () => {
             <div className="letter-details-wrapper">
                 <Link to="/" className="back-link">← Back to Dashboard</Link>
 
-                {/* Flip Letter Component */}
                 <div className='letter-with-overlay'>
-                <FlipLetter front={letterFront} back={letterBack} />
+                    {/* Fixed: Only rendering FlipLetter once */}
+                    <FlipLetter front={letterFront} back={letterBack} />
 
+                    {/* Drawing Overlay */}
+                    <DrawingOverlay
+                        isActive={drawingMode}
+                        onSave={handleSaveOverlay}
+                        onClose={() => setDrawingMode(false)}
+                    />
 
-                {/* Drawing Overlay */}
-                <DrawingOverlay
-                    isActive={drawingMode}
-                    onSave={handleSaveOverlay}
-                    onClose={() => setDrawingMode(false)}
-                />
+                    {/* Letter Actions */}
+                    <div className='letter-actions-section'> {/* Fixed typo 'secton' -> 'section' */}
+                        <button
+                            onClick={() => setDrawingMode(true)}
+                            className='draw-btn'
+                            disabled={drawingMode}>Draw on Letter</button>
 
-                {/* Letter Actions */}
-                <div className='letter-actions-secton'>
-                    <button
-                        onClick={() => setDrawingMode(true)}
-                        className='draw-btn'
-                        disabled={drawingMode}>Draw on Letter</button>
-
-                    {(letter.drawing || letter.overlayDrawinging) && (
-                    <button onClick={handleDeleteDrawing} className='delete-drawing-btn'>Delete Drawing</button>
-                    )}
+                        {/* Fixed typo 'overlayDrawinging' -> 'overlayDrawing' */}
+                        {(letter.drawing || letter.overlayDrawing) && (
+                            <button onClick={handleDeleteDrawing} className='delete-drawing-btn'>Delete Drawing</button>
+                        )}
+                    </div>
                 </div>
-
-                {/* Flip Letter Component */}
-                <FlipLetter front={letterFront} back={letterBack} />
 
                 <div className="letter-actions-section">
                     <button onClick={handleDelete} className="delete-btn-large">
