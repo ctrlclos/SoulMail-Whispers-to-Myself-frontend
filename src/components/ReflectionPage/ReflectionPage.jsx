@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import NavBar from '../NavBar/NavBar';
 import * as letterService from '../../services/letterService';
+import { ReflectionPrompt } from '../AI';
 
 const ReflectionPage = () => {
     const { id } = useParams();
@@ -82,6 +83,15 @@ const ReflectionPage = () => {
                 <p className="reflection-subtitle">Looking back on what you wrote, how do you feel now?</p>
 
                 <form onSubmit={handleSubmit}>
+                    {/* AI-Generated Reflection Question */}
+                    <div className="ai-reflection-prompt">
+                        <ReflectionPrompt
+                            letterId={id}
+                            className="reflection-question"
+                            loadingText="Generating a reflection question for you..."
+                        />
+                    </div>
+
                     {/* Reflection Text */}
                     <div className="form-section">
                         <label className="large-label">Your Reflection:</label>
