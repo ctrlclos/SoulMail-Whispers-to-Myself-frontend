@@ -25,7 +25,7 @@ const DrawingCanvas = ({ onSave }) => {
     // Get mouse/touch position
     const getPosition = (e) => {
         const canvas = canvasRef.current;
-        const rect = canvas.getBoundClientRect();
+        const rect = canvas.getBoundingClientRect();
 
         if (e.touches) {
             return {
