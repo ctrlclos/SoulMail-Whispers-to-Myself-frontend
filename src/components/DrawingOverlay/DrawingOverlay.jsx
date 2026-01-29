@@ -82,7 +82,7 @@ const DrawingOverlay = ({ isActive, onSave, onClose }) => {
     };
 
     const handleSave = () => {
-        const imageData = canvasRef.current.toDateURL('image/png');
+        const imageData = canvasRef.current.toDataURL('image/png');
         if (onSave) onSave(imageData);
     };
 

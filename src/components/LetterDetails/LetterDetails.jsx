@@ -193,6 +193,7 @@ const LetterDetails = () => {
 
     // Handle Drawing overlay
     const handleSaveOverlay = async (imagedata) => {
+        console.log(imagedata)
         try {
             const updatedLetter = await letterService.addOverlayDrawing(id, { overlayDrawing: imagedata });
             setLetter(updatedLetter);

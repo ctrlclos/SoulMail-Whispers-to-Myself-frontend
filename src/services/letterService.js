@@ -163,7 +163,7 @@ const addGoalReflection = async (letterId, goalId, reflection) => {
 };
 // POST /letters/:id/overlay-drawing
 const addOverlayDrawing = async (letterId, drawingData) => {
-    const res = await fetch(`{BASE_URL}/${letterId}/overlay-drawing`, {
+    const res = await fetch(`${BASE_URL}/${letterId}/overlay-drawing`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(drawingData)
@@ -200,5 +200,6 @@ export {
     updateGoalStatus,
     carryGoalForward,
     addGoalReflection,
-    deleteDrawing
+    deleteDrawing,
+    addOverlayDrawing
 };
